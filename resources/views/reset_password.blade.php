@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>Recover Password</title>
     <style>
         * {
             margin: 0;
@@ -43,18 +43,21 @@
             }
         }
 
-        .logo {
-            width: 60px;
-            height: 60px;
+        .icon-container {
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, #4ade80 0%, #3b82f6 100%);
-            border-radius: 16px;
+            border-radius: 20px;
             margin: 0 auto 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+        }
+
+        .icon-container svg {
+            width: 40px;
+            height: 40px;
             color: white;
-            font-weight: 600;
         }
 
         h1 {
@@ -72,6 +75,7 @@
             font-size: 15px;
             margin-bottom: 32px;
             font-weight: 400;
+            line-height: 1.5;
         }
 
         .form-group {
@@ -87,8 +91,7 @@
             letter-spacing: 0.2px;
         }
 
-        input[type="email"],
-        input[type="password"] {
+        input[type="email"] {
             width: 100%;
             padding: 14px 16px;
             border: 2px solid #e2e8f0;
@@ -100,54 +103,14 @@
             font-family: inherit;
         }
 
-        input[type="email"]:focus,
-        input[type="password"]:focus {
+        input[type="email"]:focus {
             outline: none;
             border-color: #4ade80;
             background: white;
             box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
         }
 
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .remember {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #4ade80;
-        }
-
-        .remember label {
-            margin: 0;
-            font-size: 14px;
-            color: #475569;
-            cursor: pointer;
-        }
-
-        .forgot-link {
-            color: #3b82f6;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .forgot-link:hover {
-            color: #2563eb;
-        }
-
-        .btn-signin {
+        .btn-submit {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #4ade80 0%, #3b82f6 100%);
@@ -159,92 +122,97 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+            margin-bottom: 16px;
         }
 
-        .btn-signin:hover {
+        .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
         }
 
-        .btn-signin:active {
+        .btn-submit:active {
             transform: translateY(0);
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 28px 0;
-            gap: 16px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
-        }
-
-        .divider span {
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .social-login {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .social-btn {
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.2s;
+        .back-link {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #475569;
-        }
-
-        .social-btn:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
-        }
-
-        .signup-link {
-            text-align: center;
-            margin-top: 28px;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .signup-link a {
             color: #3b82f6;
             text-decoration: none;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             transition: color 0.2s;
         }
 
-        .signup-link a:hover {
+        .back-link:hover {
             color: #2563eb;
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #4ade80;
+            color: #065f46;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-top: 24px;
+        }
+
+        .info-box p {
+            color: #1e40af;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .info-box strong {
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">A</div>
+        <div class="icon-container">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+            </svg>
+        </div>
         
-        <h1>Welcome back</h1>
-        <p class="subtitle">Sign in to continue to your account</p>
+        <h1>Forgot password?</h1>
+        <p class="subtitle">No worries! Enter your email address and we'll send you a link to reset your password.</p>
 
-        <form action="{{ route('login') }}" method="POST">
+        @if(session('status'))
+            <div class="success-message">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form action="/forgot-password" method="POST">
             @csrf
             
             <div class="form-group">
@@ -256,39 +224,25 @@
                     placeholder="Enter your email"
                     value="{{ old('email') }}"
                     required
+                    autofocus
                 >
                 @error('email')
-                    <span style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;">{{ $message }}</span>
+                    <span class="error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    placeholder="Enter your password"
-                    required
-                >
-                @error('password')
-                    <span style="color: #ef4444; font-size: 13px; margin-top: 4px; display: block;">{{ $message }}</span>
-                @enderror
-            </div>
+            <button type="submit" class="btn-submit">Send reset link</button>
 
-            <div class="remember-forgot">
-                <div class="remember">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">Remember me</label>
-                </div>
-                <a href="{{ route('password.request') }}" class="forgot-link">Forgot password?</a>
-            </div>
-
-            <button type="submit" class="btn-signin">Sign in</button>
+            <a href="/login" class="back-link">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to sign in
+            </a>
         </form>
 
-        <div class="signup-link">
-            Don't have an account? <a href="{{ route('register') }}">Sign up</a>
+        <div class="info-box">
+            <p><strong>Note:</strong> If you don't receive an email within a few minutes, please check your spam folder or try again.</p>
         </div>
     </div>
 </body>

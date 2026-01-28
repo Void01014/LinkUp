@@ -146,7 +146,7 @@
             position: relative;
         }
 
-        .toggle-password {
+        .password {
             position: absolute;
             right: 16px;
             top: 50%;
@@ -160,7 +160,7 @@
             transition: color 0.2s;
         }
 
-        .toggle-password:hover {
+        .password:hover {
             color: #3b82f6;
         }
 
@@ -258,7 +258,7 @@
     <div class="container">
         <div class="profile-header">
             <div class="profile-top">
-                <div class="avatar">{{ ucfirst($user->first_name[0]) ?? 'O' }}</div>
+                <div class="avatar">O</div>
                 <div class="profile-info">
                     <h1>{{ $user->first_name ?? 'John' }} {{ $user->last_name ?? 'Doe' }}</h1>
                     <p>Member since {{ $user->created_at ?? 'January 2025' }}</p>
@@ -361,7 +361,7 @@
                             name="current_password" 
                             placeholder="••••••••"
                         >
-                        <button type="button" class="toggle-password" onclick="togglePassword('current_password')">Show</button>
+                        <button type="button" class="password" onclick="togglePassword('current_password')">Show</button>
                     </div>
                     @error('current_password')
                         <span class="error">{{ $message }}</span>
@@ -378,7 +378,7 @@
                                 name="new_password" 
                                 placeholder="••••••••"
                             >
-                            <button type="button" class="toggle-password" onclick="togglePassword('new_password')">Show</button>
+                            <button type="button" class="password" onclick="togglePassword('new_password')">Show</button>
                         </div>
                         @error('new_password')
                             <span class="error">{{ $message }}</span>
@@ -394,7 +394,7 @@
                                 name="new_password_confirmation" 
                                 placeholder="••••••••"
                             >
-                            <button type="button" class="toggle-password" onclick="togglePassword('new_password_confirmation')">Show</button>
+                            <button type="button" class="password" onclick="togglePassword('new_password_confirmation')">Show</button>
                         </div>
                     </div>
                 </div>
