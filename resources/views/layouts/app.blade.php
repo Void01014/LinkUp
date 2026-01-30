@@ -33,8 +33,9 @@
             font-weight: 500;
         }
 
-        @yield('styles');
-    </style>
+        </style>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
@@ -43,13 +44,19 @@
         <div class="nav-links">
             <a href="/dashboard">Dashboard</a>
             <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+            </a>
+            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+            @csrf
+            </form>
+
         </div>
     </nav>
 
     <!-- This is where page content goes -->
     <main>
-        
+        {{ $slot }}
     </main>
 
     <script>
