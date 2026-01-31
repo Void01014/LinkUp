@@ -1,204 +1,187 @@
 @php
-// FAKE DATA - Replace this with real database queries later
-$users = [
-    [
-        'name' => 'John Doe',
-        'email' => 'john.doe@example.com',
-        'role' => 'Admin',
-        'status' => 'active',
-        'joined' => 'Jan 15, 2025',
-        'new' => false
-    ],
-    [
-        'name' => 'Jane Smith',
-        'email' => 'jane.smith@example.com',
-        'role' => 'Editor',
-        'status' => 'active',
-        'joined' => 'Jan 20, 2025',
-        'new' => true
-    ],
-    [
-        'name' => 'Mike Johnson',
-        'email' => 'mike.j@example.com',
-        'role' => 'User',
-        'status' => 'inactive',
-        'joined' => 'Dec 10, 2024',
-        'new' => false
-    ],
-    [
-        'name' => 'Sarah Williams',
-        'email' => 'sarah.w@example.com',
-        'role' => 'Editor',
-        'status' => 'active',
-        'joined' => 'Jan 25, 2025',
-        'new' => true
-    ],
-    [
-        'name' => 'David Brown',
-        'email' => 'david.brown@example.com',
-        'role' => 'User',
-        'status' => 'active',
-        'joined' => 'Jan 12, 2025',
-        'new' => false
-    ],
-    [
-        'name' => 'Emily Davis',
-        'email' => 'emily.d@example.com',
-        'role' => 'Admin',
-        'status' => 'active',
-        'joined' => 'Jan 28, 2025',
-        'new' => true
-    ],
-];
+//     $users = [
+//     [
+//         'name' => 'John Doe',
+//         'username' => '@johndoe',
+//         'bio' => 'Software developer passionate about Laravel and web development. Love to code and share knowledge!',
+//         'friends' => 245,
+//         'posts' => 89,
+//         'joined' => 'Jan 2024',
+//         'status' => 'stranger' // stranger, pending, friends
+//     ],
+//     [
+//         'name' => 'Jane Smith',
+//         'username' => '@janesmith',
+//         'bio' => 'Designer & artist. Creating beautiful things every day. Coffee lover ☕',
+//         'friends' => 512,
+//         'posts' => 156,
+//         'joined' => 'Mar 2024',
+//         'status' => 'pending'
+//     ],
+//     [
+//         'name' => 'Mike Johnson',
+//         'username' => '@mikej',
+//         'bio' => 'Photographer exploring the world one shot at a time 📷',
+//         'friends' => 183,
+//         'posts' => 234,
+//         'joined' => 'Feb 2024',
+//         'status' => 'friends'
+//     ],
+//     [
+//         'name' => 'Sarah Williams',
+//         'username' => '@sarahw',
+//         'bio' => 'Marketing expert | Travel enthusiast | Dog mom 🐕',
+//         'friends' => 398,
+//         'posts' => 67,
+//         'joined' => 'Jan 2025',
+//         'status' => 'stranger'
+//     ],
+//     [
+//         'name' => 'David Brown',
+//         'username' => '@davidb',
+//         'bio' => 'Fitness coach helping people achieve their goals 💪',
+//         'friends' => 672,
+//         'posts' => 423,
+//         'joined' => 'Dec 2023',
+//         'status' => 'stranger'
+//     ],
+//     [
+//         'name' => 'Emily Davis',
+//         'username' => '@emilyd',
+//         'bio' => 'Writer | Bookworm | Tea addict. Living one page at a time 📚',
+//         'friends' => 289,
+//         'posts' => 178,
+//         'joined' => 'Oct 2024',
+//         'status' => 'pending'
+//     ],
+//     [
+//         'name' => 'Alex Martinez',
+//         'username' => '@alexm',
+//         'bio' => 'Musician and music producer. Making beats and vibes 🎵',
+//         'friends' => 456,
+//         'posts' => 312,
+//         'joined' => 'Aug 2024',
+//         'status' => 'stranger'
+//     ],
+//     [
+//         'name' => 'Lisa Anderson',
+//         'username' => '@lisaa',
+//         'bio' => 'Chef & food blogger. Sharing recipes and culinary adventures 🍳',
+//         'friends' => 534,
+//         'posts' => 289,
+//         'joined' => 'May 2024',
+//         'status' => 'friends'
+//     ],
+//     [
+//         'name' => 'Chris Taylor',
+//         'username' => '@christ',
+//         'bio' => 'Gaming streamer | Tech enthusiast | Always online 🎮',
+//         'friends' => 892,
+//         'posts' => 567,
+//         'joined' => 'Nov 2023',
+//         'status' => 'stranger'
+//     ],
+// ];
 @endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            Find Users
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <!-- Total Users Card -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 font-medium">Total Users</p>
-                                <p class="text-3xl font-bold text-gray-900 mt-2">{{ count($users) }}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-green-400 to-blue-500 p-3 rounded-lg">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Active Users Card -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 font-medium">Active Today</p>
-                                <p class="text-3xl font-bold text-gray-900 mt-2">{{ collect($users)->where('status', 'active')->count() }}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-green-400 to-green-600 p-3 rounded-lg">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- New Users Card -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-gray-600 font-medium">New This Week</p>
-                                <p class="text-3xl font-bold text-gray-900 mt-2">{{ collect($users)->where('new', true)->count() }}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-3 rounded-lg">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Users Table -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            
+            <!-- Search Bar -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Recent Users</h3>
-                        <button class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition">
-                            Add New User
+                    <div class="flex gap-4">
+                        <input 
+                            type="text" 
+                            placeholder="Search users by name or email..." 
+                            class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                        >
+                        <button class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition">
+                            Search
                         </button>
                     </div>
+                </div>
+            </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        User
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Joined
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($users as $user)
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <div class="h-10 w-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                                    {{ strtoupper(substr($user['name'], 0, 2)) }}
-                                                </div>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    {{ $user['name'] }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $user['email'] }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            @if($user['role'] == 'Admin') bg-purple-100 text-purple-800
-                                            @elseif($user['role'] == 'Editor') bg-blue-100 text-blue-800
-                                            @else bg-gray-100 text-gray-800
-                                            @endif">
-                                            {{ $user['role'] }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            @if($user['status'] == 'active') bg-green-100 text-green-800
-                                            @else bg-red-100 text-red-800
-                                            @endif">
-                                            {{ ucfirst($user['status']) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $user['joined'] }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
-                                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <!-- Users Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($users as $user)
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition">
+                    <div class="p-6">
+                        <!-- User Avatar & Name -->
+                        <div class="flex flex-col items-center text-center mb-4">
+                            <div class="w-24 h-24 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl mb-3">
+                                {{ strtoupper(substr($user['first_name'], 0, 2)) }}
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">{{ $user['name'] }}</h3>
+                            <p class="text-sm text-gray-500">{{ $user['first_name'] }} {{ $user['last_name'] }}</p>
+                        </div>
+
+                        <!-- User Bio -->
+                        <p class="text-sm text-gray-600 text-center mb-4 line-clamp-2">
+                            {{ $user['bio'] }}
+                        </p>
+
+                        <!-- User Stats -->
+                        <div class="flex justify-around border-t border-b border-gray-200 py-3 mb-4">
+                            <div class="text-center">
+                                <p class="text-lg font-semibold text-gray-900">{{ $user['friends_count'] }}</p>
+                                <p class="text-xs text-gray-500">Friends</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-lg font-semibold text-gray-900">{{ date_format($user['created_at'], 'M Y') }}</p>
+                                <p class="text-xs text-gray-500">Joined</p>
+                            </div>
+                        </div>
+                        <!-- Friend Request Button -->
+                        @if($user['status'] == 'null')
+                            <button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
+                                Add Friend
+                            </button>
+                        @elseif($user['status'] == 'pending')
+                            <button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
+                                Request Pending
+                            </button>
+                        @elseif($user['status'] == 'accepted')
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
+                                    Unfriend
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <!-- Pagination -->
+            <div class="mt-8 flex justify-center">
+                <div class="bg-white px-6 py-3 rounded-lg shadow-sm">
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition">
+                            Previous
+                        </button>
+                        <button class="px-4 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg font-medium">
+                            1
+                        </button>
+                        <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition">
+                            2
+                        </button>
+                        <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition">
+                            3
+                        </button>
+                        <button class="px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 transition">
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>

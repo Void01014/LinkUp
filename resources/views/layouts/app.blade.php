@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,23 +33,24 @@
             margin: 0 12px;
             font-weight: 500;
         }
-
-        </style>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
+
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
     <nav class="navbar">
-        <div class="logo">My App</div>
+        <a href="dashboard"><img class="logo" width="100px" src="{{ asset('build/assets/logo.png') }}" alt="App Logo"></a>
         <div class="nav-links">
             <a href="/dashboard">Dashboard</a>
             <a href="/profile">Profile</a>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a href="#{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Logout
             </a>
-            <form method="POST" action="{{ route('logout') }}" id="logout-form">
-            @csrf
+            <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">
+                @csrf
             </form>
 
         </div>
@@ -63,4 +65,5 @@
         @yield('scripts')
     </script>
 </body>
+
 </html>
