@@ -41,7 +41,7 @@
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
     <nav class="navbar">
-        <a href="dashboard"><img class="logo" width="100px" src="{{ asset('build/assets/logo.png') }}" alt="App Logo"></a>
+        <a href="dashboard"><img class="logo" width="100px" src="{{ asset('images/logo.png') }}" alt="App Logo"></a>
         <div class="nav-links">
             <a href="/dashboard">Dashboard</a>
             <a href="/profile">Profile</a>

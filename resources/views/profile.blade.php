@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
     <style>
         * {
             margin: 0;
@@ -13,10 +6,10 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 40px 20px; */
         }
 
         .container {
@@ -255,149 +248,135 @@
             }
         }
     </style>
-</head>
+    <x-app-layout>
+        <main class="mt-20">
+            <div class="container">
+                <div class="profile-header">
+                    <div class="profile-top">
+                        <div class="avatar">{{ ucfirst($user->first_name[0]) }}</div>
+                        <div class="profile-info">
+                            <h1>{{ $user->first_name ?? 'John' }} {{ $user->last_name ?? 'Doe' }}</h1>
+                            <p>Member since {{ date_format($user->created_at, 'Y') ?? '' }}</p>
+                        </div>
+                    </div>
+                </div>
 
-<body>
-    <div class="container">
-        <div class="profile-header">
-            <div class="profile-top">
-                <div class="avatar">O</div>
-                <div class="profile-info">
-                    <h1>{{ $user->first_name ?? 'John' }} {{ $user->last_name ?? 'Doe' }}</h1>
-                    <p>Member since {{ date_format($user->created_at, 'Y') ?? '' }}</p>
+                <div class="profile-form">
+                    @if (session('success'))
+                        <div class="success-message">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <h2 class="section-title">Profile Information</h2>
+
+                    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+                        @csrf
+                        @method('patch')
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name"
+                                    value="{{ old('first_name', $user->first_name ?? 'John') }}" required>
+                                @error('first_name')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name"
+                                    value="{{ old('last_name', $user->last_name ?? 'Doe') }}" required>
+                                @error('last_name')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email"
+                                value="{{ old('email', $user->email ?? 'john.doe@example.com') }}" required>
+                            @error('email')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" name="bio" placeholder="Tell us about yourself..." class="w-full px-4 py-[14px] border-2 border-[#e2e8f0] rounded-[12px] text-[15px] text-[#1e293b] bg-[#f8fafc] transition-all duration-300 ease-in-out font-inherit focus:outline-none focus:border-[#4ade80] focus:bg-white focus:ring-4 focus:ring-[#4ade80]/10">{{ old('bio', $user->bio ?? '') }}</textarea>
+                            <p class="helper-text">Write a short bio about yourself</p>
+                            @error('bio')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="flex justify-center gap-4">
+                            <div class="hidden">hell</div>
+                            @if (session('status') === 'profile-updated')
+                                <p class="text-sm text-green-600">{{ __('Saved') }}</p>
+                            @endif
+                            <div class="btn-group">
+                                <button type="submit" class="w-80 btn btn-primary">Save Changes</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                        @csrf
+                        @method('put')
+
+
+                        <h2 class="section-title" style="margin-top: 40px;">Change Password</h2>
+
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <div class="password-field">
+                                <input type="password" id="current_password" name="current_password"
+                                    placeholder="••••••••">
+                                <button type="button" class="password"
+                                    onclick="togglePassword('current_password')">Show</button>
+                            </div>
+                            @error('current_password')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="new_password" name="new_password" placeholder="••••••••">
+                                    <button type="button" class="password"
+                                        onclick="togglePassword('new_password')">Show</button>
+                                </div>
+                                @error('new_password')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="new_password_confirmation">Confirm New Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="new_password_confirmation"
+                                        name="new_password_confirmation" placeholder="••••••••">
+                                    <button type="button" class="password"
+                                        onclick="togglePassword('new_password_confirmation')">Show</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="submit" class="w-80 btn btn-primary">Save New Password</button>
+                        </div>
+                        @if (session('status') === 'password-updated')
+                            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                class="text-sm text-center text-gray-600">{{ __('Saved') }}</p>
+                        @endif
+                    </form>
                 </div>
             </div>
-        </div>
-
-        <div class="profile-form">
-            @if (session('success'))
-                <div class="success-message">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <h2 class="section-title">Profile Information</h2>
-
-            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-                @csrf
-                @method('patch')
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name"
-                            value="{{ old('first_name', $user->first_name ?? 'John') }}" required>
-                        @error('first_name')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name"
-                            value="{{ old('last_name', $user->last_name ?? 'Doe') }}" required>
-                        @error('last_name')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email"
-                        value="{{ old('email', $user->email ?? 'john.doe@example.com') }}" required>
-                    @error('email')
-                        <span class="error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="bio">Bio</label>
-                    <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ old('bio', $user->bio ?? '') }}</textarea>
-                    <p class="helper-text">Write a short bio about yourself</p>
-                    @error('bio')
-                        <span class="error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="btn-group">
-                    <button type="submit" class="w-[80%] btn btn-primary">Save Changes</button>
-                </div>
-                @if (session('status') === 'profile-updated')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
-                @endif
-
-            </form>
-
-            <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
-                @csrf
-                @method('put')
-
-
-                <h2 class="section-title" style="margin-top: 40px;">Change Password</h2>
-
-                <div class="form-group">
-                    <label for="current_password">Current Password</label>
-                    <div class="password-field">
-                        <input type="password" id="current_password" name="current_password" placeholder="••••••••">
-                        <button type="button" class="password"
-                            onclick="togglePassword('current_password')">Show</button>
-                    </div>
-                    @error('current_password')
-                        <span class="error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="new_password">New Password</label>
-                        <div class="password-field">
-                            <input type="password" id="new_password" name="new_password" placeholder="••••••••">
-                            <button type="button" class="password"
-                                onclick="togglePassword('new_password')">Show</button>
-                        </div>
-                        @error('new_password')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="new_password_confirmation">Confirm New Password</label>
-                        <div class="password-field">
-                            <input type="password" id="new_password_confirmation" name="new_password_confirmation"
-                                placeholder="••••••••">
-                            <button type="button" class="password"
-                                onclick="togglePassword('new_password_confirmation')">Show</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">Save New Password</button>
-                </div>
-                @if (session('status') === 'profile-updated')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
-                @endif
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function togglePassword(fieldId) {
-            const input = document.getElementById(fieldId);
-            const button = input.nextElementSibling;
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                button.textContent = 'Hide';
-            } else {
-                input.type = 'password';
-                button.textContent = 'Show';
-            }
-        }
-    </script>
-</body>
-
-</html>
+        </main>
+    </x-app-layout>
