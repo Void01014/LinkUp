@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +39,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -254,6 +256,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="profile-header">
@@ -261,13 +264,13 @@
                 <div class="avatar">O</div>
                 <div class="profile-info">
                     <h1>{{ $user->first_name ?? 'John' }} {{ $user->last_name ?? 'Doe' }}</h1>
-                    <p>Member since {{ $user->created_at ?? 'January 2025' }}</p>
+                    <p>Member since {{ date_format($user->created_at, 'Y') ?? '' }}</p>
                 </div>
             </div>
         </div>
 
         <div class="profile-form">
-            @if(session('success'))
+            @if (session('success'))
                 <div class="success-message">
                     {{ session('success') }}
                 </div>
@@ -275,19 +278,15 @@
 
             <h2 class="section-title">Profile Information</h2>
 
-            <form action="/profile/update" method="POST">
+            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
                 @csrf
-                
+                @method('patch')
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
-                        <input 
-                            type="text" 
-                            id="first_name" 
-                            name="first_name" 
-                            value="{{ old('first_name', $user->first_name ?? 'John') }}"
-                            required
-                        >
+                        <input type="text" id="first_name" name="first_name"
+                            value="{{ old('first_name', $user->first_name ?? 'John') }}" required>
                         @error('first_name')
                             <span class="error">{{ $message }}</span>
                         @enderror
@@ -295,13 +294,8 @@
 
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
-                        <input 
-                            type="text" 
-                            id="last_name" 
-                            name="last_name" 
-                            value="{{ old('last_name', $user->last_name ?? 'Doe') }}"
-                            required
-                        >
+                        <input type="text" id="last_name" name="last_name"
+                            value="{{ old('last_name', $user->last_name ?? 'Doe') }}" required>
                         @error('last_name')
                             <span class="error">{{ $message }}</span>
                         @enderror
@@ -309,29 +303,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        value="{{ old('username', $user->username ?? 'johndoe') }}"
-                        required
-                    >
-                    <p class="helper-text">This is your public username</p>
-                    @error('username')
-                        <span class="error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        value="{{ old('email', $user->email ?? 'john.doe@example.com') }}"
-                        required
-                    >
+                    <input type="email" id="email" name="email"
+                        value="{{ old('email', $user->email ?? 'john.doe@example.com') }}" required>
                     @error('email')
                         <span class="error">{{ $message }}</span>
                     @enderror
@@ -339,29 +313,36 @@
 
                 <div class="form-group">
                     <label for="bio">Bio</label>
-                    <textarea 
-                        id="bio" 
-                        name="bio" 
-                        placeholder="Tell us about yourself..."
-                    >{{ old('bio', $user->bio ?? '') }}</textarea>
+                    <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ old('bio', $user->bio ?? '') }}</textarea>
                     <p class="helper-text">Write a short bio about yourself</p>
                     @error('bio')
                         <span class="error">{{ $message }}</span>
                     @enderror
                 </div>
 
+                <div class="btn-group">
+                    <button type="submit" class="w-[80%] btn btn-primary">Save Changes</button>
+                </div>
+                @if (session('status') === 'profile-updated')
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                @endif
+
+            </form>
+
+            <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+                @csrf
+                @method('put')
+
+
                 <h2 class="section-title" style="margin-top: 40px;">Change Password</h2>
 
                 <div class="form-group">
                     <label for="current_password">Current Password</label>
                     <div class="password-field">
-                        <input 
-                            type="password" 
-                            id="current_password" 
-                            name="current_password" 
-                            placeholder="••••••••"
-                        >
-                        <button type="button" class="password" onclick="togglePassword('current_password')">Show</button>
+                        <input type="password" id="current_password" name="current_password" placeholder="••••••••">
+                        <button type="button" class="password"
+                            onclick="togglePassword('current_password')">Show</button>
                     </div>
                     @error('current_password')
                         <span class="error">{{ $message }}</span>
@@ -372,13 +353,9 @@
                     <div class="form-group">
                         <label for="new_password">New Password</label>
                         <div class="password-field">
-                            <input 
-                                type="password" 
-                                id="new_password" 
-                                name="new_password" 
-                                placeholder="••••••••"
-                            >
-                            <button type="button" class="password" onclick="togglePassword('new_password')">Show</button>
+                            <input type="password" id="new_password" name="new_password" placeholder="••••••••">
+                            <button type="button" class="password"
+                                onclick="togglePassword('new_password')">Show</button>
                         </div>
                         @error('new_password')
                             <span class="error">{{ $message }}</span>
@@ -388,21 +365,21 @@
                     <div class="form-group">
                         <label for="new_password_confirmation">Confirm New Password</label>
                         <div class="password-field">
-                            <input 
-                                type="password" 
-                                id="new_password_confirmation" 
-                                name="new_password_confirmation" 
-                                placeholder="••••••••"
-                            >
-                            <button type="button" class="password" onclick="togglePassword('new_password_confirmation')">Show</button>
+                            <input type="password" id="new_password_confirmation" name="new_password_confirmation"
+                                placeholder="••••••••">
+                            <button type="button" class="password"
+                                onclick="togglePassword('new_password_confirmation')">Show</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-secondary" onclick="window.location='/dashboard'">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Save New Password</button>
                 </div>
+                @if (session('status') === 'profile-updated')
+                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                        class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                @endif
             </form>
         </div>
     </div>
@@ -411,7 +388,7 @@
         function togglePassword(fieldId) {
             const input = document.getElementById(fieldId);
             const button = input.nextElementSibling;
-            
+
             if (input.type === 'password') {
                 input.type = 'text';
                 button.textContent = 'Hide';
@@ -422,4 +399,5 @@
         }
     </script>
 </body>
+
 </html>
