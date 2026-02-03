@@ -72,9 +72,14 @@
         letter-spacing: -0.5px;
     }
 
-   
+    .profile-info p {
+        color: #64748b;
+        font-size: 15px;
+    }
 
     .profile-form {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
         border-radius: 24px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         padding: 40px;
