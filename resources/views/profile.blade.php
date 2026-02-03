@@ -74,7 +74,6 @@
 
     .profile-info p {
         color: #64748b;
-        font-size: 15px;
     }
 
     .profile-form {
