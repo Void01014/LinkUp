@@ -78,7 +78,6 @@
     }
 
     .profile-form {
-        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         border-radius: 24px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
