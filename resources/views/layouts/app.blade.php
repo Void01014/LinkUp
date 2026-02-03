@@ -61,9 +61,7 @@
         {{ $slot }}
     </main>
 
-    <script>
-        @yield('scripts')
-    </script>
+    @stack('scripts')
 </body>
 
 </html>
