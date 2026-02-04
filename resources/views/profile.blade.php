@@ -248,7 +248,7 @@
     }
 </style>
 <x-app-layout>
-    <div class="container mt-20">
+    <div class="container pt-20">
         <div class="profile-header">
             <div class="profile-top">
                 <div class="avatar">{{ ucfirst($user->first_name[0]) }}</div>

@@ -58,13 +58,14 @@
     </nav>
 
     <!-- This is where page content goes -->
-    <main>
+    <main class="relative">
+        <livewire:notification/>
         {{ $slot }}
     </main>
 
     @stack('scripts')
 
-    @vite(['resources/js/dashboard.js'])
+    @vite(['resources/js/app.js'])
 
 </body>
 

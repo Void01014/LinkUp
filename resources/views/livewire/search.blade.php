@@ -19,7 +19,7 @@ $users = computed(function () {
 ?>
 
 <div>
-    <div class="flex flex-col justify-center bg-white shadow-sm sm:rounded-lg mt-20 mx-10 md:mx-80">
+    <div class="flex flex-col justify-center bg-white shadow-sm sm:rounded-lg pt-20 mx-10 md:mx-80">
         <div class="py-6">
             <div class="flex gap-4">
                 <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search users by name..."

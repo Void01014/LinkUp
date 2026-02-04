@@ -50,5 +50,4 @@ $sendRequest = function () {
     @if (session()->has('message'))
         <span class="text-green-500 text-sm">{{ session('message') }}</span>
     @endif
-
 </div>
