@@ -41,8 +41,22 @@
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
     <nav class="navbar">
-        <a href="dashboard"><img class="logo" width="100px" src="{{ asset('images/logo.png') }}" alt="App Logo"></a>
-        <div class="nav-links">
+        <a href="dashboard" class="w-[30%]"><img class="logo" width="100px" src="{{ asset('images/logo.png') }}" alt="App Logo"></a>
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg w-full mx-20">
+            <div class="py-1 px-1">
+                <div class="flex gap-4">
+                    <input type="text" name="username" placeholder="Search users by name"
+                        class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition">
+                    <button id="searchBtn"
+                        class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-links w-[50%]">
+            <a href="/feed">Feed</a>
             <a href="/dashboard">Dashboard</a>
             <a href="/profile">Profile</a>
             <a href="#{{ route('logout') }}"
@@ -62,6 +76,9 @@
     </main>
 
     @stack('scripts')
+
+    @vite(['resources/js/dashboard.js'])
+
 </body>
 
 </html>

@@ -2,20 +2,20 @@ import swal from 'sweetalert2';
 
 const searchBtn = document.querySelector('#searchBtn')
 const getButton = (status) => {
-    if (status == 'null') {
-        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
+    if (status == null) {
+        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition" onclick="friend_action">
                         Add Friend
                 </button>
                 `;
     }
     else if (status == 'pending') {
-        return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
+        return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" onclick="friend_action" disabled>
                     Request Pending
                 </button>
                 `;
     }
     else if (status == 'accepted') {
-        return `<div class="flex gap-2">
+        return `<div class="flex gap-2" onclick="friend_action">
                     <button class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
                         Unfriend
                     </button>
@@ -25,10 +25,11 @@ const getButton = (status) => {
 }
 
 searchBtn.addEventListener('click', async () => {
+    if (window.location.pathname !== '/dashboard') {
+        window.location.href = '/dashboard';
+    }
 
     const username_field = document.querySelector('[name="username"]');
-    console.log(username_field);
-
     const username_value = username_field.value.trim();
 
     try {
@@ -51,46 +52,51 @@ searchBtn.addEventListener('click', async () => {
 
         swal.close();
 
+        var a = 2
         const users_grid = document.querySelector('#users_grid');
         let users_cards = [];
 
-        result.forEach(user => {
-            users_cards.push(`<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition">
-                        <div class="p-6">
-                            <!-- User Avatar & Name -->
+        if (result.length !== 0) {
+            result.forEach(user => {
+                users_cards.push(`<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition">
+                    <div class="p-6">
+                    <!-- User Avatar & Name -->
                             <div class="flex flex-col items-center text-center mb-4">
-                                <div
-                                    class="w-24 h-24 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl mb-3">
-                                    ${user.first_name[0].toUpperCase()}
-                                </div>
-                                <h3 class="text-lg font-semibold text-gray-900">${user.first_name} ${user.last_name}</h3>
+                            <div
+                            class="w-24 h-24 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl mb-3">
+                            ${user.first_name[0].toUpperCase()}
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">${user.first_name} ${user.last_name}</h3>
                             </div>
 
                             <!-- User Bio -->
                             <p class="text-sm text-gray-600 text-center mb-4 line-clamp-2">
                                 ${user.bio}
-                            </p>
+                                </p>
 
                             <!-- User Stats -->
                             <div class="flex justify-around border-t border-b border-gray-200 py-3 mb-4">
                                 <div class="text-center">
-                                    <p class="text-lg font-semibold text-gray-900">${user.friends_count}</p>
-                                    <p class="text-xs text-gray-500">Friends</p>
+                                <p class="text-lg font-semibold text-gray-900">${user.friends_count}</p>
+                                <p class="text-xs text-gray-500">Friends</p>
                                 </div>
                                 <div class="text-center">
-                                    <p class="text-lg font-semibold text-gray-900">
-                                        ${new Date(user.created_at).toLocaleDateString()}</p>
-                                    <p class="text-xs text-gray-500">Member since</p>
+                                <p class="text-lg font-semibold text-gray-900">
+                                ${new Date(user.created_at).toLocaleDateString()}</p>
+                                <p class="text-xs text-gray-500">Member since</p>
                                 </div>
-                            </div>
-                            ${getButton(user.status)}
-                        </div>
-                    </div>
-`);
+                                </div>
+                                ${getButton(user.status)}
+                                </div>
+                                </div>
+                                `);
                 const users = users_cards.join('');
-
                 users_grid.innerHTML = users;
-        });
+            });
+        } else {
+            users_grid.innerHTML = users;
+            const users = '';
+        }
 
     } catch (err) {
         console.error('Error editing profile:', err);
