@@ -1,13 +1,37 @@
 <?php
+
+use App\Models\Friendship;
+use Illuminate\Support\Facades\Auth;
 use function Livewire\Volt\{state, mount};
 
-state(['userId']);
+state(['userId', 'sent' => false]);
 
 mount(function ($userId) {
     $this->userId = $userId;
 });
+
+$sendRequest = function () {
+    Friendship::create([
+        'user_id' => Auth::id(),
+        'friend_id' => $this->userId,
+        'status' => 'pending',
+    ]);
+
+    $this->sent = true;
+
+    session()->flash('message', 'Request Sent!');
+};
 ?>
 
-<button wire:click="sendRequest">
-    Add Friend (Target: {{ $userId }})
-</button>
+<div>
+    @if($sent || session()->has('message'))
+        <button disabled class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed">
+            Request Pending...
+        </button>
+    @else
+        <button wire:click="sendRequest"
+            class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
+            Add Friend
+        </button>
+    @endif
+</div>

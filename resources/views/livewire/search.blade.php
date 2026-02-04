@@ -36,7 +36,7 @@ $users = computed(function () {
         Searching for users...
     </div>
 
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Users Grid -->
@@ -68,11 +68,21 @@ $users = computed(function () {
                                 </div>
                                 <div class="text-center">
                                     <p class="text-lg font-semibold text-gray-900">
-                                        {{ date_format($user->created_at, 'm-Y') }}</p>
+                                        {{ date_format($user->created_at, 'M Y') }}</p>
                                     <p class="text-xs text-gray-500">Member since</p>
                                 </div>
                             </div>
-                            <livewire:addfriendbutton :user-id="$user->id" :key="'btn-' . $user->id" />
+                            @if ($user->status == null)
+                                <livewire:addfriendbutton :user-id="$user->id" :key="'btn-' . $user->id" />
+                            @elseif ($user->status == 'pending')
+                                <button
+                                    class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed"
+                                    disabled>
+                                    Request Pending
+                                </button>
+                            @elseif ($user->status == 'accepted')
+                                <livewire:removefriendbutton :user-id="$user->id" :key="'btn-' . $user->id" />
+                            @endif
                         </div>
                     </div>
                 @endforeach

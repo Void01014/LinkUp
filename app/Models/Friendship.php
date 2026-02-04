@@ -14,5 +14,4 @@ class Friendship extends Model
         'friend_id',
         'status',
     ];
-
 }

@@ -1,9 +1,12 @@
 import swal from 'sweetalert2';
 
 const searchBtn = document.querySelector('#searchBtn')
-const getButton = (status, id) => {
-    if (status == null) {
-        return `<livewire:addfriendbutton/>`;
+const getButton = (status) => {
+    if (status == 'null') {
+        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
+                        Add Friend
+                </button>
+                `;
     }
     else if (status == 'pending') {
         return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
@@ -83,7 +86,7 @@ searchBtn.addEventListener('click', async () => {
                                 <p class="text-xs text-gray-500">Member since</p>
                                 </div>
                                 </div>
-                                ${getButton(user.status, user.id)}
+                                ${getButton('accepted')}
                                 </div>
                                 </div>
                                 `);
