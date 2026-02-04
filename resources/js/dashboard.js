@@ -1,6 +1,28 @@
 import swal from 'sweetalert2';
 
 const searchBtn = document.querySelector('#searchBtn')
+const getButton = (status) => {
+    if (status == 'null') {
+        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
+                        Add Friend
+                </button>
+                `;
+    }
+    else if (status == 'pending') {
+        return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
+                    Request Pending
+                </button>
+                `;
+    }
+    else if (status == 'accepted') {
+        return `<div class="flex gap-2">
+                    <button class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
+                        Unfriend
+                    </button>
+                </div>
+                `;
+    }
+}
 
 searchBtn.addEventListener('click', async () => {
 
@@ -52,35 +74,16 @@ searchBtn.addEventListener('click', async () => {
                             <!-- User Stats -->
                             <div class="flex justify-around border-t border-b border-gray-200 py-3 mb-4">
                                 <div class="text-center">
-                                    <p class="text-lg font-semibold text-gray-900">{{ $user['friends_count'] }}</p>
+                                    <p class="text-lg font-semibold text-gray-900">${user.friends_count}</p>
                                     <p class="text-xs text-gray-500">Friends</p>
                                 </div>
                                 <div class="text-center">
                                     <p class="text-lg font-semibold text-gray-900">
-                                        {{ date_format($user['created_at'], 'M Y') }}</p>
-                                    <p class="text-xs text-gray-500">Joined</p>
+                                        ${new Date(user.created_at).toLocaleDateString()}</p>
+                                    <p class="text-xs text-gray-500">Member since</p>
                                 </div>
                             </div>
-                            <!-- Friend Request Button -->
-                            @if ($user['status'] == 'null')
-                                <button
-                                    class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
-                                    Add Friend
-                                </button>
-                            @elseif($user['status'] == 'pending')
-                                <button
-                                    class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed"
-                                    disabled>
-                                    Request Pending
-                                </button>
-                            @elseif($user['status'] == 'accepted')
-                                <div class="flex gap-2">
-                                    <button
-                                        class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
-                                        Unfriend
-                                    </button>
-                                </div>
-                            @endif
+                            ${getButton(user.status)}
                         </div>
                     </div>
 `);

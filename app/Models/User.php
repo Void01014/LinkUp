@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
@@ -51,11 +53,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function scopeWithFriendsCount(Builder $query, $user_id = null)
+    public function scopeWithFriendsCount(Builder $query, $user_id = null, $words)
     {
-        //exclude the current user
+        $query->selectRaw("*, CONCAT(first_name, ' ', last_name) AS full_name")->limit(8);
+
         if ($user_id) {
             $query->where('users.id', '!=', $user_id);
+        }
+
+
+        foreach ($words as $word) {
+            $query->whereRaw("LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER(?)", ["%$word%"]);
         }
 
         $query->addSelect(['friends_count' => function ($subquery) {
@@ -68,15 +76,17 @@ class User extends Authenticatable
                 });
         }]);
 
+
+
         if ($user_id) {
-            $query->addSelect(['status' => function ($subquery) use ($user_id){
+            $query->addSelect(['status' => function ($subquery) use ($user_id) {
                 $subquery->select('status')
                     ->from('friendships')
                     ->where(function ($and) use ($user_id) {
                         $and->where('user_id', $user_id)->whereColumn('friend_id', 'users.id');
                     })
-                    ->orWhere(function ($and) use ($user_id){
-                        $and->whereColumn('user_id', 'users.id')->where('friend_id', 1);
+                    ->orWhere(function ($and) use ($user_id) {
+                        $and->whereColumn('user_id', 'users.id')->where('friend_id', $user_id);
                     })
                     ->limit(1);
             }]);

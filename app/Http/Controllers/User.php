@@ -15,14 +15,9 @@ class User extends Controller
     {
 
         $words = explode(' ', $_GET['username']);
+        
+        $query = ModelsUser::withFriendsCount(Auth::id(), $words)->get();
 
-        $query = ModelsUser::selectRaw("*, CONCAT(first_name, ' ', last_name) AS full_name");
-
-        foreach($words as $word){
-            $query->whereRaw("LOWER(CONCAT(first_name, ' ', last_name)) LIKE LOWER(?)", ["%$word%"])
-                  ->where('id', '!=', Auth::id());
-        }
-
-        return $query->get();
+        return $query;
     }
 }
