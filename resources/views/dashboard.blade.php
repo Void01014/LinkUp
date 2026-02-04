@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+    <button onclick="friend_action('test')"> hello </button>
 </x-app-layout>
 
 

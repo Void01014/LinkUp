@@ -3,7 +3,7 @@ import swal from 'sweetalert2';
 const searchBtn = document.querySelector('#searchBtn')
 const getButton = (status) => {
     if (status == null) {
-        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition" onclick="friend_action">
+        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition" >
                         Add Friend
                 </button>
                 `;
@@ -24,8 +24,14 @@ const getButton = (status) => {
     }
 }
 
-searchBtn.addEventListener('click', async () => {
-    if (window.location.pathname !== '/dashboard') {
+document.addEventListener('click', (e) => {
+    if(e.target == searchBtn){
+        search()
+    }
+});
+
+async function search(){
+        if (window.location.pathname !== '/dashboard') {
         window.location.href = '/dashboard';
     }
 
@@ -94,8 +100,8 @@ searchBtn.addEventListener('click', async () => {
                 users_grid.innerHTML = users;
             });
         } else {
-            users_grid.innerHTML = users;
             const users = '';
+            users_grid.innerHTML = users;
         }
 
     } catch (err) {
@@ -107,4 +113,22 @@ searchBtn.addEventListener('click', async () => {
             confirmButtonColor: '#ef4444'
         });
     }
-});
+
+}
+
+async function friend_action(action){
+    alert(action)
+    // try {
+    //     const response = await fetch(`/search?username=${username_value}`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-type': 'application/json',
+    //         }
+    //     });
+
+    //     const result = await response.json();
+
+    // } catch (err) {
+
+    // }
+}
