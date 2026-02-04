@@ -3,19 +3,19 @@ import swal from 'sweetalert2';
 const searchBtn = document.querySelector('#searchBtn')
 const getButton = (status) => {
     if (status == null) {
-        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition" >
+        return `<button class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg font-medium hover:shadow-lg transition">
                         Add Friend
                 </button>
                 `;
     }
     else if (status == 'pending') {
-        return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" onclick="friend_action" disabled>
+        return `<button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
                     Request Pending
                 </button>
                 `;
     }
     else if (status == 'accepted') {
-        return `<div class="flex gap-2" onclick="friend_action">
+        return `<div class="flex gap-2">
                     <button class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
                         Unfriend
                     </button>
@@ -24,14 +24,8 @@ const getButton = (status) => {
     }
 }
 
-document.addEventListener('click', (e) => {
-    if(e.target == searchBtn){
-        search()
-    }
-});
-
-async function search(){
-        if (window.location.pathname !== '/dashboard') {
+searchBtn.addEventListener('click', async () => {
+    if (window.location.pathname !== '/dashboard') {
         window.location.href = '/dashboard';
     }
 
@@ -100,8 +94,8 @@ async function search(){
                 users_grid.innerHTML = users;
             });
         } else {
-            const users = '';
             users_grid.innerHTML = users;
+            const users = '';
         }
 
     } catch (err) {
@@ -113,22 +107,4 @@ async function search(){
             confirmButtonColor: '#ef4444'
         });
     }
-
-}
-
-async function friend_action(action){
-    alert(action)
-    // try {
-    //     const response = await fetch(`/search?username=${username_value}`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //         }
-    //     });
-
-    //     const result = await response.json();
-
-    // } catch (err) {
-
-    // }
-}
+});
