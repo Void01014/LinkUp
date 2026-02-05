@@ -55,7 +55,7 @@
                                                         </path>
                                                     </svg>
                                                 </button>
-                                                <livewire:removefriendbutton :user-id="$friend->id" :key="'btn-' . $friend->id"/>
+                                                <livewire:removefriendbutton :friend-id="$friend->id" :key="'btn-' . $friend->id"/>
                                             </div>
                                         </div>
                                     </a>
