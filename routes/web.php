@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
+use App\Http\Controllers\Friendship as ControllersFriendship;
 use App\Http\Controllers\User;
 
 Route::get('/', function () {
@@ -31,5 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/feed', [Feed::class, 'view'])->name('feed.view');
+    Route::get('/friends', [ControllersFriendship::class, 'view'])->name('feed.view');
 });
 require __DIR__.'/auth.php';

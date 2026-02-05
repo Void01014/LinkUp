@@ -45,6 +45,7 @@
         <div class="nav-links">
             <a href="/feed">Feed</a>
             <a href="/dashboard">Dashboard</a>
+            <a href="/friends">Friends</a>
             <a href="/profile">Profile</a>
             <a href="#{{ route('logout') }}"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

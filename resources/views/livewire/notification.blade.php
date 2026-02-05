@@ -2,7 +2,7 @@
 
 use function Livewire\Volt\{state};
 
-dd($notification);
+
 ?>
 
 <div id="notificationBtn" class="absolute flex flex-col items-end top-5 right-10">
