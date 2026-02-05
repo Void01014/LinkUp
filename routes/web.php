@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/feed', [Feed::class, 'view'])->name('feed.view');
+    Route::post('/', [Feed::class, 'store'])->name('posts.store');
     Route::get('/friends', [ControllersFriendship::class, 'view'])->name('feed.view');
 });
 require __DIR__.'/auth.php';
