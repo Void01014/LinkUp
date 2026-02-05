@@ -1,4 +1,6 @@
 <?php $friendsExist = false ?>
+<?php $requestsExist = false ?>
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -78,6 +80,7 @@
                             <div class="space-y-3">
                                 @foreach ($friends as $request)
                                     @if ($request->status == 'pending')
+                                        <?php $requestsExist = true ?>
                                         <div
                                             class="border-2 border-gray-200 rounded-lg p-3 hover:border-blue-300 transition">
                                             <a href="/profile/{{ $request->id }}" class="block mb-3">
@@ -103,7 +106,7 @@
                                             <!-- Action Buttons -->
                                             <livewire:acceptrequestbutton :friend-id="$friend->id" :key="'btn-' . $friend->id" />
                                         </div>
-                                    @else
+                                    @elseif(!$requestsExist)
                                         <div class="text-center py-8">
                                             <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none"
                                                 stroke="currentColor" viewBox="0 0 24 24">

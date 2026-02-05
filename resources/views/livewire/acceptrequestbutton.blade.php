@@ -4,21 +4,16 @@ use function Livewire\Volt\{state, mount};
 use App\Models\Friendship;
 use Illuminate\Support\Facades\Auth;
 
-state(['userId', 'friendId', 'accepted' => false, 'canceled' => false]);
+state(['userId', 'friendId', 'iWasTheRecipient' => false, 'accepted' => false, 'canceled' => false]);
 
 mount(function ($friendId) {
     $this->userId = Auth::id();
     $this->friendId = $friendId;
+    $this->iWasTheRecipient = Friendship::where('user_id', $friendId)->where('friend_id', $this->userId)->where('status', 'pending')->exists();
 });
 
 $acceptRequest = function () {
-    $request = Friendship::where(function ($query) {
-        $query->where('user_id', $this->userId)->where('friend_id', $this->friendId);
-    })
-        ->orWhere(function ($query) {
-            $query->where('user_id', $this->friendId)->where('friend_id', $this->userId);
-        })
-        ->first();
+    $request = Friendship::where('user_id', $this->userId)->where('friend_id', $this->userId)->where('status', 'pending')->first();
 
     if ($request) {
         $request->status = 'accepted';
@@ -57,13 +52,14 @@ $rejectRequest = function () {
             Removed
         </button>
     @else
-        <button wire:click="acceptRequest"
-            class="flex-1 bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 px-6 rounded-lg font-medium hover:shadow-lg transition">
-            Accept
-        </button>
-
+        @if ($iWasTheRecipient)
+            <button wire:click="acceptRequest"
+                class="flex-1 bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 px-6 rounded-lg font-medium hover:shadow-lg transition">
+                Accept
+            </button>
+        @endif
         <button wire:click="rejectRequest"
-            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-300 transition">
+            class="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-300 transition">
             Remove
         </button>
     @endif
