@@ -81,7 +81,7 @@ $users = computed(function () {
                                     Request Pending
                                 </button>
                             @elseif ($user->status == 'accepted')
-                                <livewire:removefriendbutton :user-id="$user->id" :key="'btn-' . $user->id" />
+                                <livewire:removefriendbutton :friend-id="$user->id" :key="'btn-' . $user->id" />
                             @endif
                         </div>
                     </div>

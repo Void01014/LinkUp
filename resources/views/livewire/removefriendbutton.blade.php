@@ -12,30 +12,31 @@ mount(function ($friendId) {
 });
 
 $removeFriend = function () {
-    Friendship::where(function ($query){
-        $query->where('user_id', $this->userId)
-            ->where('friend_id', $this->friendId);
+    Friendship::where(function ($query) {
+        $query->where('user_id', $this->userId)->where('friend_id', $this->friendId);
     })
-        ->orWhere(function ($query){
-            $query->where('user_id', $this->friendId)
-                ->where('friend_id', $this->userId);
+        ->orWhere(function ($query) {
+            $query->where('user_id', $this->friendId)->where('friend_id', $this->userId);
         })
         ->delete();
 
     $this->removed = true;
 
-    session()->flash('message', 'removed from friends');
+    session()->flash('message', 'You are no loner friends');
 };
 ?>
 
 <div>
-    <div class="flex gap-2">
-        <button class="flex-1 bg-red-500 text-white py-2 rounded-lg font-medium hover:bg-red-600 transition">
-            Unfriend
-        </button>
+    <div class="flex flex-col gap-2">
+        @if ($removed || session()->has('message'))
+            <span class="text-green-500 text-sm font-medium">
+                {{ session('message') ?? 'You Are no Longer Friends' }}
+            </span>
+        @else
+            <button wire:click="removeFriend" onclick="event.preventDefault(); event.stopPropagation();"
+                class="w-full bg-red-500 text-white py-2 px-2 rounded-lg font-medium hover:bg-red-600 transition">
+                Unfriend
+            </button>
+        @endif
     </div>
-
-    @if (session()->has('message'))
-    <span class="text-green-500 text-sm">{{ session('message') }}</span>
-    @endif
 </div>
