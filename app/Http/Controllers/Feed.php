@@ -20,26 +20,34 @@ class Feed extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'content' => 'required|string|max:5000',
-            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
+        ], [
+            'content.required' => 'Please write something before posting.',
+            'content.max' => 'Post content cannot exceed 5000 characters.',
+            'featured_image.image' => 'The file must be an image.',
+            'featured_image.mimes' => 'Only JPEG, PNG, JPG, and GIF images are allowed.',
+            'featured_image.max' => 'Image size cannot exceed 10MB.',
         ]);
 
-        $imagePath = null;
+        $post = new Post();
+        $post->user_id = Auth::id();
+        $post->content = $validated['content'];
+
+        // Handle image upload
         if ($request->hasFile('featured_image')) {
             $imagePath = $request->file('featured_image')->store('posts', 'public');
+            $post->featured_image = $imagePath;
         }
 
-        Post::create([
-            'user_id' => Auth::id(),
-            'content' => $request->content,
-            'featured_image' => $imagePath,
-        ]);
+        $post->save();
 
-        return back()->with('success', 'Post shared successfully!');
+        return redirect()->back()->with('success', 'Post created successfully!');
     }
 
-    public function get_Latest_posts() {}
-
-    public function get_rec() {}
+    public function edit(Request $request)
+    {
+        return view('post_edit', [$request->post]);
+    }
 }

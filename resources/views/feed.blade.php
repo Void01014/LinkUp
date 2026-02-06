@@ -82,24 +82,50 @@
                             </div>
                             <div class="flex-1">
                                 <textarea name="content" placeholder="What's on your mind?"
-                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition resize-none"
-                                    rows="3" required></textarea>
+                                    class="w-full px-4 py-3 border-2 {{ $errors->has('content') ? 'border-red-500' : 'border-gray-200' }} rounded-lg focus:outline-none focus:border-blue-500 transition resize-none"
+                                    rows="3" required>{{ old('content') }}</textarea>
+
+                                @error('content')
+                                    <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
+                                @enderror
 
                                 <div class="flex justify-between items-center mt-3">
-                                    <div class="flex gap-2">
-                                        <input type="file" name="featured_image" id="featured_image" class="hidden"
-                                            accept="image/*">
+                                    <div class="flex gap-2 flex-col">
+                                        <div class="flex gap-2">
+                                            <input type="file" name="featured_image" id="featured_image"
+                                                class="hidden" accept="image/*" onchange="previewImage(event)">
+                                            <label for="featured_image"
+                                                class="cursor-pointer px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition flex items-center gap-2">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                                    </path>
+                                                </svg>
+                                                Photo
+                                            </label>
+                                        </div>
 
-                                        <label for="featured_image"
-                                            class="cursor-pointer px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition flex items-center gap-2">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                </path>
-                                            </svg>
-                                            Photo
-                                        </label>
+                                        @error('featured_image')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
+
+                                        <div id="imagePreview" class="mt-2 hidden">
+                                            <div class="relative">
+                                                <img id="preview"
+                                                    class="w-full h-auto max-h-[400px] object-cover rounded-lg border-2 border-gray-200"
+                                                    alt="Preview">
+                                                <button type="button" onclick="removePreview()"
+                                                    class="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <button type="submit"
                                         class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition">
@@ -129,26 +155,29 @@
                                 </div>
                             </div>
                             <!-- Post actions -->
-                            <div class="relative">
-                                <button class="moreBtn text-gray-400 hover:text-gray-600 focus:outline-none">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z">
-                                        </path>
-                                    </svg>
-                                </button>
+                            @if ($post->user_id == $user->id)
+                                <div class="relative">
+                                    <button class="moreBtn text-gray-400 hover:text-gray-600 focus:outline-none">
+                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z">
+                                            </path>
+                                        </svg>
+                                    </button>
 
-                                <div
-                                    class="popup-class absolute right-0 mt-2 w-60 bg-white border border-gray-100 rounded-lg shadow-xl z-50 hidden">
-                                    <div class="py-2">
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit
-                                            Post</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Delete Post</a>
+                                    <div
+                                        class="popup-class absolute right-0 mt-2 w-60 bg-white border border-gray-100 rounded-lg shadow-xl z-50 hidden">
+                                        <div class="py-2">
+                                            <a href="{{ route('post.edit') }}" id="{{ $post->id }}"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                Edit Post
+                                            </a>
+
+                                            <livewire:posts.deletepost :post-id="$post->id" :key="'btn-' . $post->id" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
 
                         <!-- Post Content -->
@@ -212,7 +241,8 @@
                                         </div>
                                         <div class="flex-1">
                                             <div class="bg-gray-100 rounded-2xl px-4 py-2">
-                                                <p class="font-semibold text-sm text-gray-900">{{ $comment['author'] }}
+                                                <p class="font-semibold text-sm text-gray-900">
+                                                    {{ $comment['author'] }}
                                                 </p>
                                                 <p class="text-sm text-gray-800">{{ $comment['text'] }}</p>
                                             </div>
@@ -252,4 +282,28 @@
 
         </div>
     </div>
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const previewContainer = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePreview() {
+            const previewContainer = document.getElementById('imagePreview');
+            const fileInput = document.getElementById('featured_image');
+
+            previewContainer.classList.add('hidden');
+            fileInput.value = '';
+        }
+    </script>
 </x-app-layout>

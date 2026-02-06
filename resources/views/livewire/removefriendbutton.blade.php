@@ -22,7 +22,7 @@ $removeFriend = function () {
 
     $this->removed = true;
 
-    session()->flash('message', 'You are no loner friends');
+    session()->flash('message', 'You are no longer friends');
 };
 ?>
 
