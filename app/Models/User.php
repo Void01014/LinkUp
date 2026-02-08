@@ -24,10 +24,10 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-
-    public function commentedposts(): BelongsToMany
+    public function comments(): HasMany
     {
-        return $this->belongsToMany(Post::class, 'comments');
+        // "Give me all the individual comment objects I have written"
+        return $this->hasMany(Comment::class);
     }
 
     public function likedposts(): BelongsToMany
@@ -73,7 +73,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function scopeWithFriendsCount(Builder $query, $user_id = null, $words)
+    public function scopeWithFriendsCount(Builder $query, $words, $user_id = null)
     {
         $query->selectRaw("*, CONCAT(first_name, ' ', last_name) AS full_name")->limit(8);
 

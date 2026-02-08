@@ -12,6 +12,7 @@ class Feed extends Controller
     public function view(Request $request)
     {
         $posts = Post::with('user')
+                     ->with('comments')
                      ->withCount('likes')
                      ->withExists(['likes as i_liked' => function($q) {
                         $q->where('user_id', Auth::id());
