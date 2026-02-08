@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-col sm:flex-row gap-3 md:max-w-xs">
+                            <div class="flex gap-3">
                                 @if ($ex_user->status == null)
                                     <livewire:addfriendbutton :friend-id="$ex_user->id" :key="'btn-' . $user->id" />
                                         @elseif ($ex_user->status == 'pending')

@@ -27,7 +27,6 @@ Route::get('update_password', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/search', [DashboardController::class, 'create'])->name('search.view');
-    Route::get('/search_results', [User::class, 'search'])->name('search');
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/feed', [Feed::class, 'view'])->name('feed.view');
