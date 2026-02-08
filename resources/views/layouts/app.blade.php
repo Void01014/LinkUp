@@ -41,10 +41,10 @@
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
     <nav class="navbar">
-        <a href="dashboard"><img class="logo" width="100px" src="{{ asset('images/logo.png') }}" alt="App Logo"></a>
+        <a href="feed"><img class="logo" width="100px" src="{{ asset('images/logo.png') }}" alt="App Logo"></a>
         <div class="nav-links">
             <a href="/feed">Feed</a>
-            <a href="/dashboard">Dashboard</a>
+            <a href="/search">Search</a>
             <a href="/friends">Friends</a>
             <a href="/profile">Profile</a>
             <a href="#{{ route('logout') }}"

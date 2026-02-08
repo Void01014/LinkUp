@@ -9,11 +9,11 @@ state(['userId', 'friendId', 'iWasTheRecipient' => false, 'accepted' => false, '
 mount(function ($friendId) {
     $this->userId = Auth::id();
     $this->friendId = $friendId;
-    $this->iWasTheRecipient = Friendship::where('user_id', $friendId)->where('friend_id', $this->userId)->where('status', 'pending')->exists();
+    $this->iWasTheRecipient = Friendship::where('user_id', $friendId)->where('friend_id', Auth::id())->where('status', 'pending')->exists();
 });
 
 $acceptRequest = function () {
-    $request = Friendship::where('user_id', $this->userId)->where('friend_id', $this->userId)->where('status', 'pending')->first();
+    $request = Friendship::where('user_id', $this->friendId)->where('friend_id', $this->userId)->where('status', 'pending')->first();
 
     if ($request) {
         $request->status = 'accepted';

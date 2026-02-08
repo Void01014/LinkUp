@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
 use App\Http\Controllers\Friendship as ControllersFriendship;
+use App\Http\Controllers\InspectController;
 use App\Http\Controllers\User;
 
 Route::get('/', function () {
@@ -24,16 +25,16 @@ Route::get('update_password', function () {
     return view('update_password');
 })->name('update_password');
 
-// Route::post('/forgot-password', [Password]);
-
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'create'])->name('dashboard');
-    Route::get('/search', [User::class, 'search'])->name('search');
+    Route::get('/search', [DashboardController::class, 'create'])->name('search.view');
+    Route::get('/search_results', [User::class, 'search'])->name('search');
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/feed', [Feed::class, 'view'])->name('feed.view');
     Route::get('/post_edit', [Feed::class, 'edit'])->name('post.edit');
     Route::post('/', [Feed::class, 'store'])->name('posts.store');
     Route::get('/friends', [ControllersFriendship::class, 'view'])->name('feed.view');
+    Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
 });
+
 require __DIR__.'/auth.php';

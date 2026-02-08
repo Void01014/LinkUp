@@ -204,7 +204,7 @@
                                 <span class="font-semibold">{{ $post->likes_count }}</span> likes
                             </span>
                             <span class="text-sm text-gray-600">
-                                <span class="font-semibold">{{ $post['comments_count'] }}</span> comments
+                                <span class="font-semibold">{{ $post->comments_count }}</span> comments
                             </span>
                         </div>
 

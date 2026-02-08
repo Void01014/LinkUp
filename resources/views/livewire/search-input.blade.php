@@ -13,7 +13,7 @@ $users = computed(function () {
     }
     $words = explode(' ', $searchTerm);
 
-    return User::withFriendsCount(Auth::id(), $words)->get();
+    return User::withFriendsCount($words, Auth::id())->paginate(10);
 });
 
 ?>

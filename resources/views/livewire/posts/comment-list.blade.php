@@ -16,12 +16,12 @@ on(['comment-added-{post.id}' => function () {
         <div class="flex gap-3">
             <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                {{ strtoupper(substr($comment['author'], 0, 2)) }}
+                {{ ucfirst($comment->user->first_name[0]) . ucfirst($comment->user->last_name[0]) }}
             </div>
             <div class="flex-1">
                 <div class="bg-gray-100 rounded-2xl px-4 py-2">
                     <p class="font-semibold text-sm text-gray-900">
-                        {{ $comment['author'] }}
+                        {{ $comment->user->first_name . ' ' . $comment->user->last_name}} 
                     </p>
                     <p class="text-sm text-gray-800">{{ $comment->content }}</p>
                 </div>

@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function create(Request $request){  
-        return view('dashboard');
+        return view('search');
     }
 }

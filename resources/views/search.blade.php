@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:search/>
+    <livewire:search-input/>
 </x-app-layout>
