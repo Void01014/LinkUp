@@ -4,16 +4,16 @@ use App\Models\Friendship;
 use Illuminate\Support\Facades\Auth;
 use function Livewire\Volt\{state, mount};
 
-state(['userId', 'sent' => false]);
+state(['friendId', 'sent' => false]);
 
-mount(function ($userId) {
-    $this->userId = $userId;
+mount(function ($friendId) {
+    $this->friendId = $friendId;
 });
 
 $sendRequest = function () {
     Friendship::create([
         'user_id' => Auth::id(),
-        'friend_id' => $this->userId,
+        'friend_id' => $this->friendId,
         'status' => 'pending',
     ]);
 
