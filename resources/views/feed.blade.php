@@ -215,7 +215,7 @@
                             <livewire:posts.comment-input :post-id="$post->id" :key="'comment-'.$post->id"/>
 
                             </div>
-                            <livewire:posts.comment-list :post="$post" :key="'commentList-'.$post->id"/>
+                            <livewire:posts.comment-list :post="$post" :post-id="$post->id" :key="'commentList-'.$post->id"/>
                     </div>
                 </div>
             @endforeach

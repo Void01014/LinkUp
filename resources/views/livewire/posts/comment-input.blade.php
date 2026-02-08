@@ -13,7 +13,7 @@ $postComment = function () {
     }
 
     $post = Post::find($this->postId);
-    $post->comments->create([
+    $post->comments()->create([
         'user_id' => Auth::id(),
         'content' => $this->content,
     ]);
@@ -21,8 +21,6 @@ $postComment = function () {
     $this->content = '';
     $this->dispatch("comment-added-{$this->postId}");
 };
-
-$comment = function () {};
 
 ?>
 
