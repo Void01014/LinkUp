@@ -101,14 +101,14 @@ class User extends Authenticatable
         if ($user_id) {
             $query->addSelect(['status' => function ($subquery) use ($user_id) {
                 $subquery->select('status')
-                    ->from('friendships')
-                    ->where(function ($and) use ($user_id) {
-                        $and->where('user_id', $user_id)->whereColumn('friend_id', 'users.id');
-                    })
-                    ->orWhere(function ($and) use ($user_id) {
-                        $and->whereColumn('user_id', 'users.id')->where('friend_id', $user_id);
-                    })
-                    ->limit(1);
+                        ->from('friendships')
+                        ->where(function ($and) use ($user_id) {
+                            $and->where('user_id', $user_id)->whereColumn('friend_id', 'users.id');
+                        })
+                        ->orWhere(function ($and) use ($user_id) {
+                            $and->whereColumn('user_id', 'users.id')->where('friend_id', $user_id);
+                        })
+                        ->limit(1);
             }]);
         }
 

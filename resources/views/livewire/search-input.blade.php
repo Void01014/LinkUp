@@ -42,25 +42,27 @@ $users = computed(function () {
             <!-- Users Grid -->
             <div id="users_grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($this->users as $user)
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition">
+                    <div class="relative group bg-white shadow-sm sm:rounded-lg hover:shadow-lg transition">
+
+                        <a href="{{ route('inspect.view', ['ex_userId' => $user->id]) }}" class="absolute inset-0 z-10"
+                            aria-label="View {{ $user->first_name }}'s profile">
+                        </a>
+
                         <div class="p-6">
-                            <!-- User Avatar & Name -->
                             <div class="flex flex-col items-center text-center mb-4">
                                 <div
                                     class="w-24 h-24 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-2xl mb-3">
                                     {{ ucfirst($user->first_name[0]) }}
                                 </div>
-                                <h3 class="text-lg font-semibold text-gray-900">{{ $user->first_name }}
-                                    {{ $user->last_name }}
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    {{ $user->first_name }} {{ $user->last_name }}
                                 </h3>
                             </div>
 
-                            <!-- User Bio -->
                             <p class="text-sm text-gray-600 text-center mb-4 line-clamp-2">
                                 {{ $user->bio }}
                             </p>
 
-                            <!-- User Stats -->
                             <div class="flex justify-around border-t border-b border-gray-200 py-3 mb-4">
                                 <div class="text-center">
                                     <p class="text-lg font-semibold text-gray-900">{{ $user->friends_count }}</p>
@@ -72,17 +74,20 @@ $users = computed(function () {
                                     <p class="text-xs text-gray-500">Member since</p>
                                 </div>
                             </div>
-                            @if ($user->status == null)
-                                <livewire:addfriendbutton :user-id="$user->id" :key="'btn-' . $user->id" />
-                            @elseif ($user->status == 'pending')
-                                <button
-                                    class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed"
-                                    disabled>
-                                    Request Pending
-                                </button>
-                            @elseif ($user->status == 'accepted')
-                                <livewire:removefriendbutton :friend-id="$user->id" :key="'btn-' . $user->id" />
-                            @endif
+
+                            <div class="relative z-20">
+                                @if ($user->status == null)
+                                    <livewire:addfriendbutton :friend-id="$user->id" :key="'btn-' . $user->id" />
+                                @elseif ($user->status == 'pending')
+                                    <button
+                                        class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-medium cursor-not-allowed"
+                                        disabled>
+                                        Request Pending
+                                    </button>
+                                @elseif ($user->status == 'accepted')
+                                    <livewire:removefriendbutton :friend-id="$user->id" :key="'btn-' . $user->id" />
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach

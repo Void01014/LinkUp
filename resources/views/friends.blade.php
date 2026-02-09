@@ -122,28 +122,6 @@
                     </div>
 
                     <!-- Suggestions (Optional) -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                                People You May Know
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                                        J
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-semibold text-sm text-gray-900 truncate">John Example</h4>
-                                        <p class="text-xs text-gray-500">5 mutual friends</p>
-                                    </div>
-                                    <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                                        Add
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
