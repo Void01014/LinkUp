@@ -13,8 +13,18 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->longText('content');
-            $table->foreignId('image_id')->constrained('images')->cascadeOnDelete();
+            $table->foreignId('sender_id')
+                  ->constrained('users')
+                  ->cascadeOnDelete();
+
+            $table->foreignId('receiver_id')
+                  ->constrained('users')
+                  ->cascadeOnDelete();
+
+            $table->longText('content')->nullable();
+
+            $table->nullableMorphs('attachment');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
