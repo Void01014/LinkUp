@@ -30,10 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/feed', [Feed::class, 'view'])->name('feed.view');
-    Route::get('/post_edit', [Feed::class, 'edit'])->name('post.edit');
-    Route::post('/', [Feed::class, 'store'])->name('posts.store');
-    Route::get('/friends', [ControllersFriendship::class, 'view'])->name('feed.view');
+    Route::get('/post_edit/{post_id}', [Feed::class, 'edit'])->name('post_edit');
+    Route::post('/post_store', [Feed::class, 'store'])->name('posts.store');
+    Route::put('/post_update/{post_id}', [Feed::class, 'update'])->name('post.update');
+    Route::get('/friends', [ControllersFriendship::class, 'view'])->name('friends.view');
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -167,8 +167,8 @@
 
                                     <div
                                         class="popup-class absolute right-0 mt-2 w-60 bg-white border border-gray-100 rounded-lg shadow-xl z-50 hidden">
-                                        <div class="py-2">
-                                            <a href="{{ route('post.edit') }}" id="{{ $post->id }}"
+                                        <div class="w-full py-2">
+                                            <a href="{{ route('post_edit', ['post_id' => $post->id]) }}"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                                 Edit Post
                                             </a>
@@ -210,12 +210,12 @@
 
                         <!-- Like and Comment section -->
                         <div class="flex gap-2 mb-4">
-                            <livewire:posts.likepost :post-id="$post->id" :i-liked="$post->i_liked" :key="'like-'.$post->id" />
+                            <livewire:posts.likepost :post-id="$post->id" :i-liked="$post->i_liked" :key="'like-' . $post->id" />
 
-                            <livewire:posts.comment-input :post-id="$post->id" :key="'comment-'.$post->id"/>
+                            <livewire:posts.comment-input :post-id="$post->id" :key="'comment-' . $post->id" />
 
-                            </div>
-                            <livewire:posts.comment-list :post="$post" :post-id="$post->id" :key="'commentList-'.$post->id"/>
+                        </div>
+                        <livewire:posts.comment-list :post="$post" :post-id="$post->id" :key="'commentList-' . $post->id" />
                     </div>
                 </div>
             @endforeach

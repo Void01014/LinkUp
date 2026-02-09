@@ -42,7 +42,7 @@
                     </div>
 
                     <!-- Edit Form -->
-                    <form action="/post/{{ $post->id }}/update" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('post.update', ['post_id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

@@ -12,13 +12,13 @@ class Feed extends Controller
     public function view(Request $request)
     {
         $posts = Post::with('user')
-                     ->with('comments.user')
-                     ->withCount(['likes', 'comments'])
-                     ->withExists(['likes as i_liked' => function($q) {
-                        $q->where('user_id', Auth::id());
-                     }])
-                     ->latest()
-                     ->get();
+            ->with('comments.user')
+            ->withCount(['likes', 'comments'])
+            ->withExists(['likes as i_liked' => function ($q) {
+                $q->where('user_id', Auth::id());
+            }])
+            ->latest()
+            ->get();
 
         return view('feed', [
             'user' => $request->user(),
@@ -49,8 +49,45 @@ class Feed extends Controller
         return redirect()->back()->with('success', 'Post created successfully!');
     }
 
-    public function edit(Request $request)
+    public function edit($post_id)
     {
-        return view('post_edit', [$request->post]);
+        $post = Post::findOrFail($post_id);
+
+        // Authorization check
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        return view('post_edit', ['post' => $post]);
+    }
+
+    public function update(Request $request, $post_id)
+    {
+        $post = Post::findOrFail($post_id);
+
+        // Authorization check
+        if (auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'content' => 'required|string|max:5000',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:10240',
+        ], [
+            'content.required' => 'Please write something before posting.',
+            'content.max' => 'Post content cannot exceed 5000 characters.',
+            'featured_image.image' => 'The file must be an image.',
+            'featured_image.mimes' => 'Only JPEG, PNG, JPG, and GIF images are allowed.',
+            'featured_image.max' => 'Image size cannot exceed 10MB.',
+
+        ]);
+
+        if ($request->hasFile('featured_image')) {
+            $data['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+        }
+
+        $post->update($data);
+
+        return redirect()->route('feed.view')->with('success', 'Post updated successfully!');
     }
 }
