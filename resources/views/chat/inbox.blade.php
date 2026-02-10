@@ -11,7 +11,6 @@ $conversations = [
             'is_online' => true,
         ],
         'last_message' => 'Hey! Did you see the new Laravel update?',
-        'last_message_time' => '2m',
         'last_message_is_mine' => false,
         'unread_count' => 2,
     ],
@@ -23,7 +22,6 @@ $conversations = [
             'is_online' => true,
         ],
         'last_message' => 'Thanks for your help!',
-        'last_message_time' => '1h',
         'last_message_is_mine' => true,
         'unread_count' => 0,
     ],
@@ -35,7 +33,6 @@ $conversations = [
             'is_online' => false,
         ],
         'last_message' => 'See you tomorrow!',
-        'last_message_time' => '3h',
         'last_message_is_mine' => false,
         'unread_count' => 0,
     ],
@@ -123,7 +120,7 @@ $messages = [
                                         @if($conversation->user->is_online)
                                         <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-gray-500 border-2 border-white rounded-full"></div>
                                         @else
-                                        <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-600 border-2 border-white rounded-full"></div>
+                                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-600 border-2 border-white rounded-full"></div>
                                         @endif
                                     </div>
 
@@ -133,9 +130,6 @@ $messages = [
                                             <h4 class="font-semibold text-gray-900 truncate">
                                                 {{ $conversation->user->first_name }} {{ $conversation->user->last_name }}
                                             </h4>
-                                            <span class="text-xs text-gray-500">
-                                                {{ $conversation->last_message_time }}
-                                            </span>
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <p class="text-sm text-gray-600 truncate">
@@ -188,18 +182,6 @@ $messages = [
                                     </p>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
-                                <button class="p-2 hover:bg-gray-100 rounded-lg transition">
-                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                    </svg>
-                                </button>
-                                <button class="p-2 hover:bg-gray-100 rounded-lg transition">
-                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                                    </svg>
-                                </button>
-                            </div>
                         </div>
 
                         <!-- Messages Area -->
@@ -210,7 +192,7 @@ $messages = [
                                     <div class="flex justify-end">
                                         <div class="max-w-xs lg:max-w-md">
                                             <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-2xl shadow-lg rounded-tr-sm px-4 py-2.5">
-                                                <p class="text-sm p-1">{{ $message->content }}</p>
+                                                <p class="text-sm p">{{ $message->content }}</p>
                                             </div>
                                             <div class="flex items-center justify-end gap-1 mt-1 px-2">
                                                 <span class="text-xs text-gray-500">{{ $message->created_at->format('g:i A') }}</span>
@@ -231,7 +213,7 @@ $messages = [
                                     <div class="flex justify-start">
                                         <div class="max-w-xs lg:max-w-md">
                                             <div class="bg-white text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2.5 shadow-lg border border-gray-100">
-                                                <p class="text-sm p-1">{{ $message->content }}</p>
+                                                <p class="text-sm p">{{ $message->content }}</p>
                                             </div>
                                             <div class="flex items-center gap-1 mt-1 px-2">
                                                 <span class="text-xs text-gray-500">{{ $message->created_at->format('g:i A') }}</span>
