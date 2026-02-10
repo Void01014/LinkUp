@@ -372,6 +372,15 @@
                         class="text-sm text-center text-gray-600">{{ __('Saved') }}</p>
                 @endif
             </form>
+
+            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+                
+                <h2 class="section-title" style="margin-top: 40px;">Change Password</h2>
+                <label for="remove_message">remove message after 30 day</label>
+                <input type="checkbox" name="remove_message" id="remove_message">                
+                
+            </form>
+
         </div>
     </div>
 
