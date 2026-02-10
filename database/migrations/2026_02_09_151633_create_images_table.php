@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
             $table->string('path'); // The storage path (e.g., 'uploads/chat/pic.jpg')
             $table->string('filename');
-=======
->>>>>>> 5d7b04ebed38e54ce47d70f24a11681d003e492e
             $table->timestamps();
         });
     }
