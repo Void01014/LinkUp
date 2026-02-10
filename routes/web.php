@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/post_update/{post_id}', [Feed::class, 'update'])->name('post.update');
     Route::get('/friends', [ControllersFriendship::class, 'view'])->name('friends.view');
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
+    Route::get('/chat/inbox', [ChatController::class, 'inbox'])->name('chat.inbox');
 });
 
 require __DIR__ . '/auth.php';
