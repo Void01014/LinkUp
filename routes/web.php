@@ -9,6 +9,8 @@ use App\Http\Controllers\Feed;
 use App\Http\Controllers\Friendship as ControllersFriendship;
 use App\Http\Controllers\InspectController;
 use App\Http\Controllers\User;
+use App\Http\Controllers\QrScanController;
+
 
 Route::get('/', function () {
     return redirect('login');
@@ -38,5 +40,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
     Route::get('/chat/inbox', [ChatController::class, 'inbox'])->name('chat.inbox');
 });
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/qr/generate', [QrScanController::class, 'generate'])
+
+        ->name('qr.generate');
+
+    Route::post('/qr/generate-link', [QrScanController::class, 'generateLink'])
+
+        ->name('qr.generate-link');
+
+});
+
+Route::get('/friend/{token}', [QrScanController::class, 'scan'])
+
+    ->name('qr.scan');
+
 
 require __DIR__ . '/auth.php';
