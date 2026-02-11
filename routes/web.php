@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
 use App\Http\Controllers\Friendship as ControllersFriendship;
 use App\Http\Controllers\InspectController;
 use App\Http\Controllers\User;
+use App\Http\Controllers\QrScanController;
+
 
 Route::get('/', function () {
     return redirect('login');
@@ -35,6 +38,24 @@ Route::middleware('auth')->group(function () {
     Route::put('/post_update/{post_id}', [Feed::class, 'update'])->name('post.update');
     Route::get('/friends', [ControllersFriendship::class, 'view'])->name('friends.view');
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
+    Route::get('/chat/inbox', [ChatController::class, 'inbox'])->name('chat.inbox');
 });
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/qr/generate', [QrScanController::class, 'generate'])
+
+        ->name('qr.generate');
+
+    Route::post('/qr/generate-link', [QrScanController::class, 'generateLink'])
+
+        ->name('qr.generate-link');
+
+});
+
+Route::get('/friend/{token}', [QrScanController::class, 'scan'])
+
+    ->name('qr.scan');
+
 
 require __DIR__ . '/auth.php';
