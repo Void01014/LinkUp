@@ -169,7 +169,7 @@
         gap: 12px;
         margin-top: 32px;
     }
-    
+
     .btn {
         flex: 1;
         padding: 14px;
@@ -267,14 +267,12 @@
 
                 <!-- Generate QR Code Button -->
 
-                <button id="generateQrBtn" 
-
-                        class="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition duration-200">
+                <button id="generateQrBtn"
+                    class="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition duration-200">
 
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
 
                     </svg>
@@ -286,13 +284,11 @@
                 <!-- Generate Link Button -->
 
                 <button id="generateLinkBtn"
-
-                        class="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition duration-200">
+                    class="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition duration-200">
 
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
 
                     </svg>
@@ -319,7 +315,8 @@
 
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
 
                         </svg>
 
@@ -357,7 +354,8 @@
 
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
 
                         </svg>
 
@@ -368,14 +366,12 @@
                 <div class="mb-4">
 
                     <input type="text" id="friendLinkInput" readonly
-
                         class="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl text-sm">
 
                 </div>
 
-                <button id="copyLinkBtn" 
-
-                        class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                <button id="copyLinkBtn"
+                    class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition">
 
                     Copy to Clipboard
 
@@ -383,7 +379,8 @@
 
                 <p class="text-sm text-gray-500 text-center mt-4">
 
-                    Valid for <span class="font-semibold">1 hour</span>. Anyone who opens this link will become your friend.
+                    Valid for <span class="font-semibold">1 hour</span>. Anyone who opens this link will become your
+                    friend.
 
                 </p>
 
@@ -477,7 +474,8 @@
                         <label for="password">New Password</label>
                         <div class="password-field">
                             <input type="password" id="password" name="password" placeholder="••••••••">
-                            <button type="button" class="password" onclick="togglePassword('password')">Show</button>
+                            <button type="button" class="password"
+                                onclick="togglePassword('password')">Show</button>
                         </div>
                         @error('password')
                             <span class="error">{{ $message }}</span>
@@ -503,14 +501,12 @@
                         class="text-sm text-center text-gray-600">{{ __('Saved') }}</p>
                 @endif
             </form>
+            
+            <h2 class="section-title" style="margin-top: 40px;">auto delete messages</h2>
+            @livewire('toggledeletemessages', ['active' => $user->auto_delete], key($user->id))
 
-            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-                
-                <h2 class="section-title" style="margin-top: 40px;">Change Password</h2>
-                <label for="remove_message">remove message after 30 day</label>
-                <input type="checkbox" name="remove_message" id="remove_message">                
-                
-            </form>
+
+            
 
         </div>
     </div>
@@ -531,7 +527,7 @@
                 }
             }
 
-        document.getElementById('generateQrBtn').addEventListener('click', async function() {
+            document.getElementById('generateQrBtn').addEventListener('click', async function() {
 
                 const modal = document.getElementById('qrModal');
 
@@ -543,7 +539,7 @@
 
                 try {
 
-                    const response = await fetch('{{ route("qr.generate") }}');
+                    const response = await fetch('{{ route('qr.generate') }}');
 
                     const svg = await response.text();
 
@@ -579,7 +575,7 @@
 
                 try {
 
-                    const response = await fetch('{{ route("qr.generate-link") }}', {
+                    const response = await fetch('{{ route('qr.generate-link') }}', {
 
                         method: 'POST',
 
