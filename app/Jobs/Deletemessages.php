@@ -35,6 +35,7 @@ class Deletemessages implements ShouldQueue
 
         Log::info("remove mr. $this->user_id messages that pass $this->time Houre") ;
 
+        //run when messages is ready
         // Message::where('user_id', $this->user_id)
         //     ->where('created_at', '<', $deleteBefore)
         //     ->delete();
