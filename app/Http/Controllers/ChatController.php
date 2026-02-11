@@ -13,6 +13,7 @@ class ChatController extends Controller
         return view('chat.inbox', [
             'conversations' => $conversations,
             'activeConversation' => $activeConversation,
+            'user' => auth()->user(),
         ]);
     }
 }
