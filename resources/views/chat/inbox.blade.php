@@ -37,16 +37,16 @@
         ],
     ];
 
-    $activeConversation = (object) [
-        'id' => 1,
-        'user' => (object) [
-            'first_name' => 'Salah',
-            'last_name' => 'El Masry',
-            'is_online' => true,
-        ],
-    ];
+    // $activeConversation = (object) [
+    //     'id' => 1,
+    //     'user' => (object) [
+    //         'first_name' => 'Salah',
+    //         'last_name' => 'El Masry',
+    //         'is_online' => true,
+    //     ],
+    // ];
 
-    $messages = [
+    $messages = $messages ?? [
         (object) [
             'id' => 1,
             'sender_id' => 2,
@@ -97,6 +97,7 @@
                 <div class="flex h-full">
 
                     <!-- Sidebar - Conversations List -->
+                    @persist('user-list')
                     <div class="w-full md:w-96 border-r border-gray-200 flex flex-col">
                         <!-- Sidebar Header -->
                         <div class="p-4 border-b border-gray-200">
@@ -108,8 +109,7 @@
                         <!-- Conversations List -->
                         <div class="flex-1 overflow-y-auto">
                             @forelse($conversations as $conversation)
-                                <div class="conversation-item p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition {{ $activeConversation && $activeConversation->id == $conversation->id ? 'bg-blue-50' : '' }}"
-                                    onclick="window.location.href='/chat/{{ $conversation->id }}'">
+                                <a href="{{route('chat.conversation', $conversation->id) }}" wire:navigate  class="conversation-item p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition {{ $activeConversation && $activeConversation->id == $conversation->id ? 'bg-blue-50' : '' }}">
                                     <div class="flex gap-3">
                                         <!-- Avatar with Online Status -->
                                         <div class="relative flex-shrink-0">
@@ -152,7 +152,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             @empty
                                 <div class="flex flex-col items-center justify-center h-full py-12">
                                     <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor"
@@ -166,7 +166,9 @@
                                 </div>
                             @endforelse
                         </div>
+
                     </div>
+                    @endpersist
 
                     <!-- Main Chat Window -->
                     <div class="flex-1 flex flex-col">
@@ -177,9 +179,9 @@
                                     <div class="relative">
                                         <div
                                             class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                            {{ strtoupper(substr($activeConversation->user->first_name, 0, 1)) }}
+                                            {{ strtoupper(substr($activeConversation->first_name, 0, 1)) }}
                                         </div>
-                                        @if ($activeConversation->user->is_online)
+                                        @if ($activeConversation->is_online)
                                             <div
                                                 class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full">
                                             </div>
@@ -187,44 +189,21 @@
                                     </div>
                                     <div>
                                         <h3 class="font-semibold text-gray-900">
-                                            {{ $activeConversation->user->first_name }}
-                                            {{ $activeConversation->user->last_name }}
+                                            {{ $activeConversation->first_name }}
+                                            {{ $activeConversation->last_name }}
                                         </h3>
                                         <p class="text-xs text-gray-500">
-                                            {{ $activeConversation->user->is_online ? 'Active now' : 'Offline' }}
+                                            {{ $activeConversation->is_online ? 'Active now' : 'Offline' }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Messages Area -->
-                            @livewire('chat.chat-list', ['receiver-id' => $receiver->id, 'messages' => $messages], key($user->id))
+                            @livewire('chat.chat-list', ['receiver-id' => $activeConversation->id, 'messages' => $messages], key($activeConversation->id))
 
                             <!-- Message Input (Fixed Bottom) -->
-                            <div class="p-4 border-t border-gray-200 bg-white">
-                                <form action="/chat/{{ $activeConversation->id }}/send" method="POST"
-                                    class="flex gap-3">
-                                    @csrf
-                                    <button type="button"
-                                        class="p-3 hover:bg-gray-100 rounded-lg transition flex-shrink-0">
-                                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 4v16m8-8H4"></path>
-                                        </svg>
-                                    </button>
-                                    <input type="text" name="message" placeholder="Type a message..."
-                                        class="flex-1 px-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                        required>
-                                    <button type="submit"
-                                        class="p-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-full hover:shadow-lg transition flex-shrink-0">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
+                            @livewire('chat.send-message', ['receiver-id' => $activeConversation->id], key($activeConversation->id))
                         @else
                             <!-- Empty State - No Chat Selected -->
                             <div class="flex-1 flex items-center justify-center bg-gray-50">

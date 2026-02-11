@@ -1,62 +1,49 @@
 <?php
 
+use App\Events\MessageSent;
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
+
 use function Livewire\Volt\{state, mount, on};
 
 state(['receiverId', 'message']);
 
-on(['echo-private:chat.' . auth()->id . ',MessageSent' => function ($event) {
-    $this->messages[] = $event['message'];
-    logger($event['message: ' . $event['message']]);
-}]);
+$send = function () {
+    if (empty(trim($this->message))) {
+        return;
+    }
 
-on(['message-sent' => function ($message) {
-    $this->messages[] = $message;
-    logger($message['message: ' . $message]);
-}]);
+    $newMessage = Message::create([
+        'sender_id' => Auth::id(),
+        'receiver_id' => $this->receiverId,
+        'content' => $this->message,
+    ]);
 
+    MessageSent::dispatch($newMessage);
+
+    $this->dispatch('message-sent', message: $newMessage);
+
+    $this->message = '';
+};
 ?>
 
-<div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-    @foreach ($messages as $message)
-    @if ($message->sender_id == Auth::id())
-    <!-- Sent Message (Right) -->
-    <div class="sent flex justify-end">
-        <div class="max-w-xs lg:max-w-md">
-            <div
-                class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-2xl shadow-lg rounded-tr-sm px-4 py-2.5">
-                <p class="text-sm p">{{ $message->content }}</p>
-            </div>
-            <div class="flex items-center justify-end gap-1 mt-1 px-2">
-                <span class="text-xs text-gray-500">{{ $message->created_at->format('g:i A') }}</span>
-                @if ($message->is_read)
-                <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
-                    </path>
-                </svg>
-                @else
-                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
-                    </path>
-                </svg>
-                @endif
-            </div>
-        </div>
-    </div>
-    @else
-    <!-- Received Message (Left) -->
-    <div class="received flex justify-start">
-        <div class="max-w-xs lg:max-w-md">
-            <div
-                class="bg-white text-gray-800 rounded-2xl rounded-tl-sm px-4 py-2.5 shadow-lg border border-gray-100">
-                <p class="text-sm p">{{ $message->content }}</p>
-            </div>
-            <div class="flex items-center gap-1 mt-1 px-2">
-                <span class="text-xs text-gray-500">{{ $message->created_at->format('g:i A') }}</span>
-            </div>
-        </div>
-    </div>
-    @endif
-    @endforeach
+<div class="p-4 border-t border-gray-200 bg-white">
+    <form wire:submit="send" class="flex gap-3">
+        @csrf
+        <button type="button" class="p-3 hover:bg-gray-100 rounded-lg transition flex-shrink-0">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+        </button>
+        <input type="text" wire:model="message" placeholder="Type a message..."
+            class="flex-1 px-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            required>
+        <button type="submit"
+            class="p-3 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-full hover:shadow-lg transition flex-shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+        </button>
+    </form>
 </div>

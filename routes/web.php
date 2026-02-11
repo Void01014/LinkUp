@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/friends', [ControllersFriendship::class, 'view'])->name('friends.view');
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
     Route::get('/chat/inbox', [ChatController::class, 'inbox'])->name('chat.inbox');
+    Route::get('/chat/{id}', [ChatController::class, 'inbox'])->name('chat.conversation');
 });
 
 require __DIR__ . '/auth.php';
