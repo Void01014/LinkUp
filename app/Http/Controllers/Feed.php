@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Feed extends Controller
 {
+
     public function view(Request $request)
     {
         $posts = Post::with('user')

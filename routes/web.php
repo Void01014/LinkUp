@@ -7,7 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
 use App\Http\Controllers\Friendship as ControllersFriendship;
 use App\Http\Controllers\InspectController;
-use App\Http\Controllers\User;
+
+
 
 Route::get('/', function () {
     return redirect('login');
@@ -37,4 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/inspect/{ex_userId}', [InspectController::class, 'view'])->name('inspect.view');
 });
 
+
+route::get('/auth/{provider}/redirect', [App\Http\Controllers\SocialController::class, 'redirect'])->name('social.redirect');
+route::get('/auth/{provider}/callback', [App\Http\Controllers\SocialController::class, 'callback'])->name('social.callback');
 require __DIR__ . '/auth.php';
