@@ -9,7 +9,9 @@ mount(function ($userId, $messages) {
     $this->messages = $messages;
 });
 
-$load = function () {};
+// on('echo-private:chat'.{$userId}.);
+
+$refresh = function () {};
 
 ?>
 
