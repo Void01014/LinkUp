@@ -24,22 +24,22 @@ class SocialController extends Controller
 
             $user = User::where('social_id', $socialUser->id)->where('social_type', $provider)->first();
 
-
             if (!$user) {
-                $user = User::where('email', $socialUser->email)->first();
+
+                $user = User::where('email', $socialUser->getEmail())->first();
 
                 if ($user) {
-                    dd($user);
+
                     $user->update([
-                        'social_id' => $socialUser->id,
+                        'social_id' => $socialUser->getId(),
                         'social_type' => $provider,
                     ]);
 
                 } else {
                     $user = User::create([
-                        'name' => $socialUser->name,
-                        'email' => $socialUser->email,
-                        'social_id' => $socialUser->id,
+                        'name' => $socialUser->getName(),
+                        'email' => $socialUser->getEmail(),
+                        'social_id' => $socialUser->getId(),
                         'social_type' => $provider,
                         'password' => null,
                     ]);
@@ -49,6 +49,8 @@ class SocialController extends Controller
             }
 
             Auth::login($user);
+
+
 
             return redirect()->intended('/profile');
 
