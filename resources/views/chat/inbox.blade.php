@@ -198,7 +198,7 @@
                             </div>
 
                             <!-- Messages Area -->
-                            @livewire('chat.chat-list', ['user-id' => $user->id, 'messages' => $messages], key($user->id))
+                            @livewire('chat.chat-list', ['receiver-id' => $receiver->id, 'messages' => $messages], key($user->id))
 
                             <!-- Message Input (Fixed Bottom) -->
                             <div class="p-4 border-t border-gray-200 bg-white">
