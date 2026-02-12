@@ -28,6 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+
+        if (session()->has('intended_url')) {
+
+            $url = session()->pull('intended_url');
+
+            return redirect($url);
+
+        }
+
         return redirect()->intended(route('feed.view', absolute: false));
     }
 
