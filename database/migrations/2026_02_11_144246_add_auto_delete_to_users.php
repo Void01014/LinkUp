@@ -12,12 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-           $table->string('social_id')->nullable();
-
-           $table->string('social_type')->nullable();
-
-           $table->string('password')->nullable()->change();
-
+            $table->boolean('auto_delete')->default(false);
         });
     }
 
@@ -27,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('bio');
+            $table->dropColumn('auto_delete');
         });
-        //Schema::dropColumns('bio') ;
     }
 };

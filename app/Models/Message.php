@@ -11,6 +11,12 @@ class Message extends Model
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory;
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+    
+    protected $fillable = ['sender_id', 'receiver_id', 'content'];
+
     public function attachmentable(): MorphTo
     {
         return $this->morphTo();
