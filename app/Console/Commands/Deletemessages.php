@@ -2,16 +2,18 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Deletemessages as JobsDeletemessages;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
-class deletemessages extends Command
+class Deletemessages extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'messages:delete {--time=24}';
+    protected $signature = "messages:delete {user_id} {--time=24}";
 
     /**
      * The console command description.
@@ -25,8 +27,13 @@ class deletemessages extends Command
      */
     public function handle()
     {
-        Delete
-        // echo "workinnnnnnnnnnnnnnnnnnnnnn " . $this->option('time') . "\n" ;
+
+        $user_id = $this->argument('user_id') ;
+        $time = $this->option('time') ;
+
+        $this->info("remove mr. $user_id messages that pass $time Houre") ;
+        JobsDeletemessages::dispatch($user_id , $time) ;
+        
         
     }
 }

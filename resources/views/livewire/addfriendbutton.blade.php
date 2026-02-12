@@ -6,9 +6,6 @@ use function Livewire\Volt\{state, mount};
 
 state(['friendId', 'sent' => false]);
 
-mount(function ($friendId) {
-    $this->friendId = $friendId;
-});
 
 $sendRequest = function () {
     Friendship::create([
