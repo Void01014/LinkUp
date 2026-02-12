@@ -36,7 +36,12 @@ class MessageSent implements ShouldBroadcastNow
         // Removing 'PrivateChannel' and using 'Channel'
         // We'll use a hardcoded name 'chat-debug' to be 100% sure
         return [
-            new Channel('chat-' . $this->message->receiver_id),
+            new PrivateChannel('chat.' . $this->message->receiver_id),
         ];
+    }
+
+     public function broadcastAs(): string
+    {
+        return 'message.sent';
     }
 }

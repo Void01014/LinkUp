@@ -8,7 +8,7 @@ use function Livewire\Volt\{state, on};
 state(['receiverId', 'messages']);
 
 on([
-    'echo:chat-' . Auth::id() . ',MessageSent' => function ($event) {
+    'echo-private:chat.' . Auth::id() . ',.message.sent' => function ($event) {
         $messageModel = Message::make($event['message']);
 
         $messageModel->id = $event['message']['id'];
