@@ -104,7 +104,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">A</div>
+        <div class="logo"></div>
 
         <h1>Create your account</h1>
         <p class="subtitle">Start your journey with us today</p>

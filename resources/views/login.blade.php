@@ -241,11 +241,22 @@
 
     @section('content')
         <div class="container">
-            <div class="logo">A</div>
+            <div class="logo"></div>
 
             <h1>Welcome back</h1>
             <p class="subtitle">Sign in to continue to your account</p>
+ <div class="social-login">
+            <a href="{{ route('social.redirect', ['provider' => 'google']) }}" class="social-btn">
+                <i class="fab fa-google"></i> Google
+            </a>
+            <a href="{{ route('social.redirect', ['provider' => 'facebook']) }}" class="social-btn">
+                <i class="fab fa-facebook"></i> Facebook
+            </a>
+        </div>
 
+         <div class="divider">
+            <span>or sign up with email</span>
+        </div>
             <form action="{{ route('login') }}" method="POST">
                 @csrf
 
