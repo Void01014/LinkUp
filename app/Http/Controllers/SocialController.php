@@ -9,11 +9,17 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialController extends Controller
 {
 
-    public function redirect($provider)
-    {
-        return Socialite::driver($provider)->redirect();
+public function redirect($provider)
+{
+    // If the provider is Google, force the account picker
+    if ($provider === 'google') {
+        return Socialite::driver($provider)
+            ->with(['prompt' => 'select_account'])
+            ->redirect();
     }
 
+    return Socialite::driver($provider)->redirect();
+}
 
     public function callback($provider)
     {
@@ -28,7 +34,7 @@ class SocialController extends Controller
 
                 $user = User::where('email', $socialUser->getEmail())->first();
 
-                if ($user) {
+                if (isset($user)) {
 
                     $user->update([
                         'social_id' => $socialUser->getId(),
@@ -36,26 +42,28 @@ class SocialController extends Controller
                     ]);
 
                 } else {
+
+
+                    $name = explode(' ', $socialUser->getName());
+
                     $user = User::create([
                         'name' => $socialUser->getName(),
+                        'first_name' => $name[0],
+                        'last_name' => $name[1],
                         'email' => $socialUser->getEmail(),
                         'social_id' => $socialUser->getId(),
                         'social_type' => $provider,
                         'password' => null,
                     ]);
-
                 }
 
             }
 
             Auth::login($user);
-
-
-
             return redirect()->intended('/profile');
 
         } catch (Exception $e) {
-
+            dd($e->getMessage());
             return redirect('/login')->with('error', 'Something went wrong during ' . $provider . ' login.');
         }
     }
