@@ -20,8 +20,6 @@ class ChatController extends Controller
             'activeConversation' => $activeConversation,
             'messages' => $activeConversation->messages,
             'user_id' => auth()->user()->id,
-            'user_one' => $activeConversation->user_one,
-            'user_two' => $activeConversation->user_two,
         ]);
     }
 }
