@@ -26,7 +26,7 @@
                                 @foreach ($friends as $friend)
                                     @if ($friend->status == 'accepted')
                                         <?php $friendsExist = true; ?>
-                                        <a href="/profile/{{ $friend->id }}" class="block">
+                                        <a href="{{ route('inspect.view', ['ex_userId' => $friend->id]) }}" class="block">
                                             <div
                                                 class="flex items-center gap-4 p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition cursor-pointer">
                                                 <!-- Avatar -->
