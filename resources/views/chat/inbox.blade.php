@@ -1,7 +1,13 @@
 @php
     // FAKE DATA - Replace with real data from controller
 
-    $conversations = [
+    // foreach ($conversations as $conversation) {
+    //     var_dump($conversation);
+    //     die();
+    // }
+
+
+    $conversations = $conversations ?? [
         (object) [
             'id' => 1,
             'user' => (object) [
@@ -98,7 +104,7 @@
 
                     <!-- Sidebar - Conversations List -->
                     @persist('user-list')
-                        <div class="w-full md:w-96 border-r border-gray-200 flex flex-col">
+                        <div class="h-full w-full md:w-96 border-r border-gray-200 flex flex-col">
                             <!-- Sidebar Header -->
                             <div class="p-4 border-b border-gray-200">
                                 <div class="flex items-center justify-between mb-3">
@@ -116,9 +122,9 @@
                                             <div class="relative flex-shrink-0">
                                                 <div
                                                     class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                                    {{ strtoupper(substr($conversation->user->first_name, 0, 1)) }}
+                                                    {{ strtoupper(substr($conversation->first_name, 0, 1)) }}
                                                 </div>
-                                                @if ($conversation->user->is_online)
+                                                @if ($conversation->is_online)
                                                     <div
                                                         class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-gray-500 border-2 border-white rounded-full">
                                                     </div>
@@ -133,11 +139,11 @@
                                             <div class="flex-1 min-w-0">
                                                 <div class="flex items-center justify-between mb-1">
                                                     <h4 class="font-semibold text-gray-900 truncate">
-                                                        {{ $conversation->user->first_name }}
-                                                        {{ $conversation->user->last_name }}
+                                                        {{ $conversation->first_name }}
+                                                        {{ $conversation->last_name }}
                                                     </h4>
                                                 </div>
-                                                <div class="flex items-center justify-between">
+                                                {{-- <div class="flex items-center justify-between">
                                                     <p class="text-sm text-gray-600 truncate">
                                                         @if ($conversation->last_message_is_mine)
                                                             <span class="text-gray-500">You: </span>
@@ -150,7 +156,7 @@
                                                             {{ $conversation->unread_count }}
                                                         </span>
                                                     @endif
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </a>
@@ -173,15 +179,15 @@
 
                     <!-- Main Chat Window -->
                     <div class="flex-1 flex flex-col">
-                        @php
-                            // If MY ID is user_one, the OTHER person is userTwo (the object)
-                            $otherUser =
-                                $activeConversation->user_one == auth()->id()
-                                    ? $activeConversation->userTwo
-                                    : $activeConversation->userOne;
-                        @endphp
 
                         @if ($activeConversation)
+                            @php
+                                // If MY ID is user_one, the OTHER person is userTwo (the object)
+                                $otherUser =
+                                    $activeConversation->user_one == auth()->id()
+                                        ? $activeConversation->userTwo
+                                        : $activeConversation->userOne;
+                            @endphp
                             <!-- Chat Header -->
                             <div class="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
                                 <div class="flex items-center gap-3">
