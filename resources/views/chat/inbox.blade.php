@@ -98,80 +98,89 @@
 
                     <!-- Sidebar - Conversations List -->
                     @persist('user-list')
-                    <div class="w-full md:w-96 border-r border-gray-200 flex flex-col">
-                        <!-- Sidebar Header -->
-                        <div class="p-4 border-b border-gray-200">
-                            <div class="flex items-center justify-between mb-3">
-                                <h3 class="text-lg font-semibold text-gray-900">Chats</h3>
+                        <div class="w-full md:w-96 border-r border-gray-200 flex flex-col">
+                            <!-- Sidebar Header -->
+                            <div class="p-4 border-b border-gray-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Chats</h3>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Conversations List -->
-                        <div class="flex-1 overflow-y-auto">
-                            @forelse($conversations as $conversation)
-                                <a href="{{route('chat.conversation', $conversation->id) }}" wire:navigate  class="conversation-item p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition {{ $activeConversation && $activeConversation->id == $conversation->id ? 'bg-blue-50' : '' }}">
-                                    <div class="flex gap-3">
-                                        <!-- Avatar with Online Status -->
-                                        <div class="relative flex-shrink-0">
-                                            <div
-                                                class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                                {{ strtoupper(substr($conversation->user->first_name, 0, 1)) }}
-                                            </div>
-                                            @if ($conversation->user->is_online)
+                            <!-- Conversations List -->
+                            <div class="flex-1 overflow-y-auto">
+                                @forelse($conversations as $conversation)
+                                    <a href="{{ route('chat.conversation', $conversation->id) }}" wire:navigate
+                                        class="conversation-item p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition {{ $activeConversation && $activeConversation->id == $conversation->id ? 'bg-blue-50' : '' }}">
+                                        <div class="flex gap-3">
+                                            <!-- Avatar with Online Status -->
+                                            <div class="relative flex-shrink-0">
                                                 <div
-                                                    class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-gray-500 border-2 border-white rounded-full">
+                                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+                                                    {{ strtoupper(substr($conversation->user->first_name, 0, 1)) }}
                                                 </div>
-                                            @else
-                                                <div
-                                                    class="absolute bottom-0 right-0 w-3 h-3 bg-green-600 border-2 border-white rounded-full">
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <!-- Conversation Info -->
-                                        <div class="flex-1 min-w-0">
-                                            <div class="flex items-center justify-between mb-1">
-                                                <h4 class="font-semibold text-gray-900 truncate">
-                                                    {{ $conversation->user->first_name }}
-                                                    {{ $conversation->user->last_name }}
-                                                </h4>
-                                            </div>
-                                            <div class="flex items-center justify-between">
-                                                <p class="text-sm text-gray-600 truncate">
-                                                    @if ($conversation->last_message_is_mine)
-                                                        <span class="text-gray-500">You: </span>
-                                                    @endif
-                                                    {{ $conversation->last_message }}
-                                                </p>
-                                                @if ($conversation->unread_count > 0)
-                                                    <span
-                                                        class="ml-2 px-2 py-0.5 bg-gradient-to-r from-green-400 to-blue-500 text-white text-xs font-bold rounded-full">
-                                                        {{ $conversation->unread_count }}
-                                                    </span>
+                                                @if ($conversation->user->is_online)
+                                                    <div
+                                                        class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-gray-500 border-2 border-white rounded-full">
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="absolute bottom-0 right-0 w-3 h-3 bg-green-600 border-2 border-white rounded-full">
+                                                    </div>
                                                 @endif
                                             </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            @empty
-                                <div class="flex flex-col items-center justify-center h-full py-12">
-                                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                        </path>
-                                    </svg>
-                                    <p class="text-gray-500 font-medium">No conversations yet</p>
-                                    <p class="text-sm text-gray-400 mt-1">Start chatting with your friends!</p>
-                                </div>
-                            @endforelse
-                        </div>
 
-                    </div>
+                                            <!-- Conversation Info -->
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center justify-between mb-1">
+                                                    <h4 class="font-semibold text-gray-900 truncate">
+                                                        {{ $conversation->user->first_name }}
+                                                        {{ $conversation->user->last_name }}
+                                                    </h4>
+                                                </div>
+                                                <div class="flex items-center justify-between">
+                                                    <p class="text-sm text-gray-600 truncate">
+                                                        @if ($conversation->last_message_is_mine)
+                                                            <span class="text-gray-500">You: </span>
+                                                        @endif
+                                                        {{ $conversation->last_message }}
+                                                    </p>
+                                                    @if ($conversation->unread_count > 0)
+                                                        <span
+                                                            class="ml-2 px-2 py-0.5 bg-gradient-to-r from-green-400 to-blue-500 text-white text-xs font-bold rounded-full">
+                                                            {{ $conversation->unread_count }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @empty
+                                    <div class="flex flex-col items-center justify-center h-full py-12">
+                                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                            </path>
+                                        </svg>
+                                        <p class="text-gray-500 font-medium">No conversations yet</p>
+                                        <p class="text-sm text-gray-400 mt-1">Start chatting with your friends!</p>
+                                    </div>
+                                @endforelse
+                            </div>
+
+                        </div>
                     @endpersist
 
                     <!-- Main Chat Window -->
                     <div class="flex-1 flex flex-col">
+                        @php
+                            // If MY ID is user_one, the OTHER person is userTwo (the object)
+                            $otherUser =
+                                $activeConversation->user_one == auth()->id()
+                                    ? $activeConversation->userTwo
+                                    : $activeConversation->userOne;
+                        @endphp
+
                         @if ($activeConversation)
                             <!-- Chat Header -->
                             <div class="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
@@ -179,7 +188,7 @@
                                     <div class="relative">
                                         <div
                                             class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                            {{ strtoupper(substr($activeConversation->first_name, 0, 1)) }}
+                                            {{ strtoupper(substr($otherUser->first_name, 0, 1)) }}
                                         </div>
                                         @if ($activeConversation->is_online)
                                             <div
@@ -189,21 +198,21 @@
                                     </div>
                                     <div>
                                         <h3 class="font-semibold text-gray-900">
-                                            {{ $activeConversation->first_name }}
-                                            {{ $activeConversation->last_name }}
+                                            {{ $otherUser->first_name }}
+                                            {{ $otherUser->last_name }}
                                         </h3>
                                         <p class="text-xs text-gray-500">
-                                            {{ $activeConversation->is_online ? 'Active now' : 'Offline' }}
+                                            {{ $otherUser->is_online ? 'Active now' : 'Offline' }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Messages Area -->
-                            @livewire('chat.chat-list', ['receiver-id' => $activeConversation->id, 'messages' => $messages], key($activeConversation->id))
+                            @livewire('chat.chat-list', ['conversation-id' => $activeConversation->id, 'messages' => $messages], key($activeConversation->id))
 
                             <!-- Message Input (Fixed Bottom) -->
-                            @livewire('chat.send-message', ['receiver-id' => $activeConversation->id], key($activeConversation->id))
+                            @livewire('chat.send-message', ['conversation-id' => $activeConversation->id], key($activeConversation->id))
                         @else
                             <!-- Empty State - No Chat Selected -->
                             <div class="flex-1 flex items-center justify-center bg-gray-50">
