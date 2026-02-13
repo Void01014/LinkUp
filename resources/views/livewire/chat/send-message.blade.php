@@ -6,7 +6,11 @@ use Illuminate\Support\Facades\Auth;
 
 use function Livewire\Volt\{state, mount, on};
 
-state(['receiverId', 'message']);
+state(['conversationId', 'message']);
+
+mount(function ($conversationId){
+    $this->conversationId = $conversationId;
+});
 
 $send = function () {
     if (empty(trim($this->message))) {
@@ -14,8 +18,8 @@ $send = function () {
     }
 
     $newMessage = Message::create([
-        'sender_id' => Auth::id(),
-        'receiver_id' => $this->receiverId,
+        'user_id' => Auth::id(),
+        'conversation_id' => $this->conversationId,
         'content' => $this->message,
     ]);
 
