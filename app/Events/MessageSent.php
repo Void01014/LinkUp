@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -36,7 +37,7 @@ class MessageSent implements ShouldBroadcastNow
         // Removing 'PrivateChannel' and using 'Channel'
         // We'll use a hardcoded name 'chat-debug' to be 100% sure
         return [
-            new PrivateChannel('chat.' . $this->message->receiver_id),
+            new PrivateChannel('chat.' . $this->message->conversation_id),
         ];
     }
 
