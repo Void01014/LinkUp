@@ -1,3 +1,4 @@
+alert()
 import './bootstrap';
 
 import.meta.glob([
@@ -20,23 +21,7 @@ import.meta.glob([
 //     e.stopPropagation();
 // });
 
-const moreBtns = document.querySelectorAll(".moreBtn");
 
-moreBtns.forEach((moreBtn) => {
-    // 1. Get the specific popup for THIS button
-    const currentPopup = moreBtn.nextElementSibling;
-
-    moreBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // 2. Toggle only this specific popup
-        moreBtn.classList.toggle('hidden');
-        currentPopup.classList.toggle('hidden');
-    });
-    
-    currentPopup.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-});
 
 document.addEventListener('click', () => {
     document.querySelectorAll('.popup-class').forEach(p => p.classList.add('hidden'));
