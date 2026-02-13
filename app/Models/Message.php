@@ -14,8 +14,8 @@ class Message extends Model
     protected $casts = [
         'created_at' => 'datetime',
     ];
-    
-    protected $fillable = ['sender_id', 'receiver_id', 'content'];
+
+    protected $fillable = ['user_id', 'conversation_id', 'content'];
 
     public function attachmentable(): MorphTo
     {

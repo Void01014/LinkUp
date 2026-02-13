@@ -3,41 +3,53 @@
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
-use function Livewire\Volt\{state, on};
+use function Livewire\Volt\{state, on, mount};
 
-state(['receiverId', 'messages']);
+state(['messages' => null, 'conversationId']);
 
-on([
-    'echo-private:chat.' . Auth::id() . ',.message.sent' => function ($event) {
+mount(function ($conversationId) {
+    $this->conversationId = $conversationId;
+});
+
+on(fn() => [
+    "echo-private:chat.{$this->conversationId},.message.sent" => 'handleBroadcast',
+    'message-sent' => 'handleOwnMessage',
+]);
+
+$handleBroadcast = function ($event) {
+    if ($event['message']['user_id'] !== Auth::id()) {
+
         $messageModel = Message::make($event['message']);
 
         $messageModel->id = $event['message']['id'];
         $messageModel->created_at = $event['message']['created_at'];
 
         $this->messages[] = $messageModel;
-    },
-    // From your Input Component (Yourself)
-    'message-sent' => function ($message) {
-        $messageModel = $message instanceof Message ? $message : Message::make($message);
+        logger('message NOT from me:' . $messageModel->content);
+    }
+};
 
-        $messageModel->id = $message['id'];
+$handleOwnMessage = function ($message) {
+    $messageModel = $message instanceof Message ? $message : Message::make($message);
 
-        if (!$messageModel->created_at) {
-            $messageModel->created_at = now();
-        }
+    $messageModel->id = $message['id'];
 
-        $this->messages[] = $messageModel;
+    if (!$messageModel->created_at) {
+        $messageModel->created_at = now();
+    }
 
-        logger('message from me:' . $message['content']);
-    },
-]);
+    // dd($messageModel);
+    $this->messages[] = $messageModel;
+
+    logger('message from me:' . $message['content']);
+};
 
 ?>
 
 <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
     @foreach ($messages as $index => $message)
     @php
-    $isMe = $message->sender_id == Auth::id();
+    $isMe = $message->user_id == Auth::id();
     // Create a unique key using message ID if available, otherwise use a combination of timestamp and index
     $uniqueKey = $message->id ?? ($message->created_at?->timestamp ?? time()) . '-' . $index;
     @endphp
