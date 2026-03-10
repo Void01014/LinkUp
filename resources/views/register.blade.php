@@ -113,9 +113,9 @@
             <a href="{{ route('social.redirect', ['provider' => 'google']) }}" class="social-btn">
                 <i class="fab fa-google"></i> Google
             </a>
-            <a href="{{ route('social.redirect', ['provider' => 'facebook']) }}" class="social-btn">
-                <i class="fab fa-facebook"></i> Facebook
-            </a>
+<a href="{{ route('social.redirect', ['provider' => 'github']) }}" class="social-btn">
+    <i class="fab fa-github" style="color: #24292e;"></i> GitHub
+</a>
         </div>
 
         <div class="divider">

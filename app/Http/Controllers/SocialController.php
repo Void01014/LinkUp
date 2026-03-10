@@ -17,6 +17,11 @@ public function redirect($provider)
             ->with(['prompt' => 'select_account'])
             ->redirect();
     }
+    if ($provider === 'github') {
+        return Socialite::driver($provider)
+            ->with(['prompt' => 'consent'])
+            ->redirect();
+    }
 
     return Socialite::driver($provider)->redirect();
 }
