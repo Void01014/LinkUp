@@ -1,4 +1,3 @@
-alert()
 import './bootstrap';
 
 import.meta.glob([

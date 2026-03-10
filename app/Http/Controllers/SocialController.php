@@ -53,8 +53,8 @@ public function redirect($provider)
 
                     $user = User::create([
                         'name' => $socialUser->getName(),
-                        'first_name' => $name[0],
-                        'last_name' => $name[1],
+                        'first_name' => $name[0] ?? '',
+                        'last_name' => $name[1] ?? '',
                         'email' => $socialUser->getEmail(),
                         'social_id' => $socialUser->getId(),
                         'social_type' => $provider,
