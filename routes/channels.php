@@ -11,3 +11,7 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
     $conversation = Conversation::getConversation($user->id, $id);
     return $conversation && ($user->id === $conversation->user_one || $user->id === $conversation->user_two);
 });
+
+Broadcast::channel('online', function ($user) {
+    return ['id' => $user->id, 'name' => $user->name];
+});

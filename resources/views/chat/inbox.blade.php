@@ -6,7 +6,6 @@
     //     die();
     // }
 
-
     $conversations = $conversations ?? [
         (object) [
             'id' => 1,
@@ -119,21 +118,7 @@
                                         class="conversation-item p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition {{ $activeConversation && $activeConversation->id == $conversation->id ? 'bg-blue-50' : '' }}">
                                         <div class="flex gap-3">
                                             <!-- Avatar with Online Status -->
-                                            <div class="relative flex-shrink-0">
-                                                <div
-                                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                                                    {{ strtoupper(substr($conversation->first_name, 0, 1)) }}
-                                                </div>
-                                                @if ($conversation->is_online)
-                                                    <div
-                                                        class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-gray-500 border-2 border-white rounded-full">
-                                                    </div>
-                                                @else
-                                                    <div
-                                                        class="absolute bottom-0 right-0 w-3 h-3 bg-green-600 border-2 border-white rounded-full">
-                                                    </div>
-                                                @endif
-                                            </div>
+                                            @livewire('onlineOffline', ['avatar' => strtoupper(substr($conversation->first_name, 0, 1)), 'userId' => $conversation->id], key($conversation->id))
 
                                             <!-- Conversation Info -->
                                             <div class="flex-1 min-w-0">
@@ -244,7 +229,9 @@
             </div>
         </div>
     </div>
-
+    @php
+    
+    @endphp
     <script>
         // Scroll to bottom on load
         window.addEventListener('load', function() {
@@ -268,6 +255,12 @@
         // Call scrollToBottom after form submission (you can integrate with AJAX)
         document.querySelector('form')?.addEventListener('submit', function(e) {
             setTimeout(scrollToBottom, 100);
+        });
+
+        // JS side
+        window.addEventListener('focus', () => {
+            let userId = @js($user_id);
+            window.Livewire.dispatch('mark-messages-read', { userId: userId });
         });
     </script>
 </x-app-layout>

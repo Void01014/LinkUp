@@ -32,7 +32,7 @@ moreBtns.forEach((moreBtn) => {
         moreBtn.classList.toggle('hidden');
         currentPopup.classList.toggle('hidden');
     });
-    
+
     currentPopup.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -41,4 +41,16 @@ moreBtns.forEach((moreBtn) => {
 document.addEventListener('click', () => {
     document.querySelectorAll('.popup-class').forEach(p => p.classList.add('hidden'));
     moreBtns.forEach(m => m.classList.remove('hidden'));
+
+
 });
+Echo.join('online')
+    .here((users) => {
+        users.forEach(user => window.Livewire.dispatch('user-online', { userId: user.id }));
+    })
+    .joining((user) => {
+        window.Livewire.dispatch('user-online', { userId: user.id });
+    })
+    .leaving((user) => {
+        window.Livewire.dispatch('user-offline', { userId: user.id });
+    });

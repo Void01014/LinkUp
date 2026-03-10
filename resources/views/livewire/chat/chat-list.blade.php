@@ -14,6 +14,22 @@ mount(function ($conversationId) {
 on(fn() => [
     "echo-private:chat.{$this->conversationId},.message.sent" => 'handleBroadcast',
     'message-sent' => 'handleOwnMessage',
+    'messages-updated' => 'markMineRead',
+]);
+
+on([
+    'mark-messages-read' => function ($userId) {
+        if ($userId !== Auth::id()) {
+            dd($userId);
+            Message::where('conversation_id', $this->conversationId)
+                ->whereNull('read_at')
+                ->where('user_id', '!=', Auth::id())
+                ->update(['read_at' => now()]);
+
+            // Refreshing the UI
+            $this->dispatch('messages-updated');
+        }
+    },
 ]);
 
 $handleBroadcast = function ($event) {
@@ -25,9 +41,14 @@ $handleBroadcast = function ($event) {
         $messageModel->created_at = $event['message']['created_at'];
 
         $this->messages[] = $messageModel;
-        logger('message NOT from me:' . $messageModel->content);
+
+        //I update the read_at column after it has been receiver
+        $msg = Message::find($event['message']['id']);
+        $msg->read_at = now();
+        $msg->save();
     }
 };
+
 
 $handleOwnMessage = function ($message) {
     $messageModel = $message instanceof Message ? $message : Message::make($message);
@@ -40,9 +61,17 @@ $handleOwnMessage = function ($message) {
 
     // dd($messageModel);
     $this->messages[] = $messageModel;
-
-    logger('message from me:' . $message['content']);
 };
+
+$markOthersRead = function ($aaa) {};
+
+$markMineRead = function () {
+    foreach ($this->messages as $message) {
+        if (!$message->read_at) {
+            $message->read_at = now();
+        }
+    }
+}
 
 ?>
 
@@ -69,7 +98,7 @@ $handleOwnMessage = function ($message) {
                 </span>
 
                 @if ($isMe)
-                <svg class="w-4 h-4 {{ $message->is_read ? 'text-blue-500' : 'text-gray-400' }}"
+                <svg class="w-4 h-4 {{ $message->read_at ? 'text-blue-500' : 'text-gray-400' }}"
                     fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z">
