@@ -96,7 +96,7 @@
 
 <body>
     <!-- Navbar (appears on all pages using this layout) -->
-    <nav class="navbar  bg-gradient-to-br from-green-400 to-blue-400">
+    <nav class="navbar bg-gradient-to-br from-green-400 to-blue-400">
         <a href="/feed" class="logo">
             <img width="110" src="{{ asset('images/logo.png') }}" alt="App Logo">
         </a>
@@ -104,6 +104,8 @@
         <div class="nav-links">
             <a href="/feed"><i class="fa-solid fa-house-chimney"></i> Feed</a>
             <a href="/friends"><i class="fa-solid fa-user-group"></i> Friends</a>
+
+            <a href="/chat/inbox"><i class="fa-solid fa-comment-dots"></i> Chat</a>
 
             <a href="/search" class="icon-link">
                 <i class="fa-solid fa-magnifying-glass"></i>

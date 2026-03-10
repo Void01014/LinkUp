@@ -13,7 +13,11 @@ class Deletemessages extends Command
      *
      * @var string
      */
+<<<<<<< HEAD
     protected $signature = "messages:delete {user_id} {--time=24}" ;
+=======
+    protected $signature = "messages:delete {user_id} {--time=24}";
+>>>>>>> d1c7fdc08c68fb79728d3dc35d53d24534f92fff
 
     /**
      * The console command description.
