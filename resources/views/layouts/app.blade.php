@@ -128,7 +128,7 @@
 
     <!-- This is where page content goes -->
     <main class="relative">
-        {{-- <livewire:notification/> --}}
+        <livewire:notification/>
         {{ $slot }}
     </main>
 

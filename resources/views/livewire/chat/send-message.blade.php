@@ -12,6 +12,7 @@ mount(function ($conversationId){
     $this->conversationId = $conversationId;
 });
 
+
 $send = function () {
     if (empty(trim($this->message))) {
         return;

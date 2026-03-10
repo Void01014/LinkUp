@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Feed;
 use App\Http\Controllers\Friendship as ControllersFriendship;
 use App\Http\Controllers\InspectController;
+
 use App\Http\Controllers\User;
 use App\Http\Controllers\QrScanController;
 
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{id}', [ChatController::class, 'inbox'])->name('chat.conversation');
 });
 
+
+route::get('/auth/{provider}/redirect', [App\Http\Controllers\SocialController::class, 'redirect'])->name('social.redirect');
+route::get('/auth/{provider}/callback', [App\Http\Controllers\SocialController::class, 'callback'])->name('social.callback');
 Route::middleware('auth')->group(function () {
 
     Route::get('/qr/generate', [QrScanController::class, 'generate'])
